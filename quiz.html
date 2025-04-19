@@ -1,0 +1,864 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row =>
+                    row.some(cell => cell !== '' && cell !== null && cell !== undefined)
+                );
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COA Knowledge Hub - Quiz</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --light-bg: #ecf0f1;
+            --dark-text: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+        }
+        
+        .navbar {
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+        }
+        
+        .module-btn {
+            background-color: #fff;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.5rem 1rem;
+            margin: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .module-btn:hover, .module-btn.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .quiz-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .quiz-card h5 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--dark-text);
+        }
+        
+        .quiz-card .form-check {
+            margin-bottom: 0.5rem;
+        }
+        
+        .evaluation {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .evaluation h6 {
+            margin-top: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        #quizContainer:empty::before {
+            content: "Select a module to start the quiz";
+            display: block;
+            text-align: center;
+            color: #666;
+            font-size: 1.2rem;
+            padding: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem 0;
+            }
+            .module-btn {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-laptop-code me-2"></i>COA Knowledge Hub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="modules.html"><i class="fas fa-layer-group me-1"></i> Modules</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="materials.html"><i class="fas fa-book me-1"></i> Study Materials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="videos.html"><i class="fas fa-video me-1"></i> Video Lectures</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="blogs.html"><i class="fas fa-blog me-1"></i> Blogs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="quiz.html"><i class="fas fa-question-circle me-1"></i> Quiz</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html"><i class="fas fa-info-circle me-1"></i> About Us</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <div class="input-group">
+                        <input class="form-control" type="search" placeholder="Search topics..." aria-label="Search">
+                        <button class="btn btn-outline-light" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-5 fw-bold mb-3">COA Quiz Hub</h1>
+            <p class="lead mb-4">Test your COA knowledge with dynamic quizzes</p>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <div class="container">
+        <section class="mb-5">
+            <h2 class="text-center mb-4">Module-Wise Quizzes</h2>
+            <!-- Module Selection -->
+            <div class="text-center mb-4">
+                <button class="module-btn" data-module="module1">Module 1: Computer Evolution</button>
+                <button class="module-btn" data-module="module2">Module 2: ALU</button>
+                <button class="module-btn" data-module="module3">Module 3: I/O Organization</button>
+                <button class="module-btn" data-module="module4">Module 4: CPU</button>
+                <button class="module-btn" data-module="module5">Module 5: Memory</button>
+                <button class="module-btn" data-module="module6">Module 6: Parallel</button>
+            </div>
+            <!-- Quiz Display -->
+            <div id="quizContainer"></div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>COA Knowledge Hub</h5>
+                    <p>Your comprehensive resource for Computer Organization and Architecture</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="modules.html" class="text-white">Modules</a></li>
+                        <li><a href="materials.html" class="text-white">Study Materials</a></li>
+                        <li><a href="videos.html" class="text-white">Video Lectures</a></li>
+                        <li><a href="quiz.html" class="text-white">Quiz</a></li>
+                        <li><a href="blogs.html" class="text-white">Blogs</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Connect With Us</h5>
+                    <div class="social-icons">
+                        <a href="https://www.linkedin.com/in/sathyaprakashdorasanipalle" class="text-white me-2" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/prakash323" class="text-white me-2" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.facebook.com/dorasanipalli.elisha.1/" class="text-white me-2" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/d.sathya_prakash_06" class="text-white" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <p class="mb-0">© 2023 COA Knowledge Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and Custom Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Question pools for each module
+            const questions = {
+                module1: [
+                    {
+                        question: "What is the binary equivalent of decimal 13?",
+                        options: ["1010", "1101", "1001", "1110"],
+                        correct: "1101",
+                        explanation: "To convert 13 to binary, divide by 2 repeatedly: 13 ÷ 2 = 6 remainder 1, 6 ÷ 2 = 3 remainder 0, 3 ÷ 2 = 1 remainder 1, 1 ÷ 2 = 0 remainder 1. Read remainders bottom-up: 1101.",
+                        analysis: "Binary conversion is fundamental in COA for representing data in memory and registers. Incorrect options like 1010 (10) or 1110 (14) are common errors from miscalculating remainders.",
+                        tips: "Practice division-by-2 method and verify by converting back to decimal: 1×2³ + 1×2² + 0×2¹ + 1×2⁰ = 8 + 4 + 0 + 1 = 13."
+                    },
+                    {
+                        question: "Which generation of computers used transistors?",
+                        options: ["First", "Second", "Third", "Fourth"],
+                        correct: "Second",
+                        explanation: "Second-generation computers (1950s–1960s) used transistors, replacing bulky vacuum tubes, leading to smaller, faster systems.",
+                        analysis: "Understanding computer generations helps trace COA evolution. Transistors enabled reliable ALU and memory designs. First generation used vacuum tubes, third used ICs, fourth used microprocessors.",
+                        tips: "Memorize key technologies per generation. Mixing up transistors (Second) with ICs (Third) is a common mistake."
+                    },
+                    {
+                        question: "What is the result of binary addition 1011 + 1101?",
+                        options: ["11000", "10110", "10000", "11110"],
+                        correct: "10110",
+                        explanation: "Add 1011 + 1101: Align bits, 1+1=10 (write 0, carry 1), 1+0+1=10, 0+1=1, 1+1=10, result is 10110 (22 in decimal).",
+                        analysis: "Binary addition underpins ALU operations in COA. Errors like 11110 (30) occur from ignoring carries or misaligning bits.",
+                        tips: "Write bits vertically, track carries carefully. Verify: 1011 (11) + 1101 (13) = 10110 (22)."
+                    },
+                    {
+                        question: "What does BCD stand for?",
+                        options: ["Binary Coded Decimal", "Binary Converted Data", "Bit Coded Decimal", "Base Coded Data"],
+                        correct: "Binary Coded Decimal",
+                        explanation: "BCD represents each decimal digit as a 4-bit binary code, e.g., 5 is 0101, used in early displays and calculators.",
+                        analysis: "BCD is relevant in COA for interfacing with human-readable outputs. Other options are distractors; ‘Bit Coded Decimal’ sounds plausible but is incorrect.",
+                        tips: "Remember BCD as 4 bits per digit. Don’t confuse with Gray code or Excess-3."
+                    },
+                    {
+                        question: "Which number system uses base 16?",
+                        options: ["Binary", "Decimal", "Hexadecimal", "Octal"],
+                        correct: "Hexadecimal",
+                        explanation: "Hexadecimal uses base 16, with digits 0–9 and A–F (10–15), common in memory addresses and color codes.",
+                        analysis: "In COA, hexadecimal simplifies binary representation (e.g., 1101 is D). Binary (base 2), decimal (base 10), and octal (base 8) are distinct.",
+                        tips: "Practice converting binary to hex: 4 bits = 1 hex digit. Mixing up octal (base 8) is common."
+                    },
+                    {
+                        question: "What is 1's complement of 1010?",
+                        options: ["0101", "1010", "1100", "0011"],
+                        correct: "0101",
+                        explanation: "1's complement flips each bit of 1010: 1→0, 0→1, 1→0, 0→1, resulting in 0101.",
+                        analysis: "1’s complement is used in COA for subtraction and error detection. Errors like 1100 come from misflipping bits.",
+                        tips: "Check each bit individually. Verify: 1010 + 0101 = 1111 (all 1s in 4 bits)."
+                    },
+                    {
+                        question: "Which computer generation introduced integrated circuits?",
+                        options: ["First", "Second", "Third", "Fourth"],
+                        correct: "Third",
+                        explanation: "Third-generation computers (1960s–1970s) used integrated circuits (ICs), shrinking size and boosting speed.",
+                        analysis: "ICs revolutionized COA by integrating transistors on chips, enabling complex CPUs. Second used transistors, fourth used microprocessors.",
+                        tips: "Link generations to technologies: Third = ICs. Don’t confuse with Second (transistors)."
+                    },
+                    {
+                        question: "What is the decimal equivalent of binary 1100?",
+                        options: ["10", "12", "14", "16"],
+                        correct: "12",
+                        explanation: "Binary 1100 = 1×2³ + 1×2² + 0×2¹ + 0×2⁰ = 8 + 4 + 0 + 0 = 12.",
+                        analysis: "Binary-to-decimal conversion is critical for COA debugging. Errors like 10 (1010) arise from misweighting bits.",
+                        tips: "Use positional weights (2³, 2², etc.). Double-check: 1100 ≠ 1010."
+                    },
+                    {
+                        question: "What is Gray code used for?",
+                        options: ["Data encryption", "Error detection", "Arithmetic", "Memory addressing"],
+                        correct: "Error detection",
+                        explanation: "Gray code ensures only one bit changes per transition, reducing errors in digital systems like rotary encoders.",
+                        analysis: "In COA, Gray code minimizes glitches in sequential circuits. It’s not for encryption or arithmetic, despite sounding plausible.",
+                        tips: "Recall Gray code’s single-bit change property. Don’t mix with BCD."
+                    },
+                    {
+                        question: "Which component is part of a computer’s functional units?",
+                        options: ["Monitor", "Keyboard", "ALU", "Printer"],
+                        correct: "ALU",
+                        explanation: "The ALU (Arithmetic Logic Unit) performs arithmetic and logical operations, a core functional unit in COA.",
+                        analysis: "Functional units (ALU, CU, memory) are internal to the CPU. Peripherals like monitors or keyboards are external I/O devices.",
+                        tips: "Focus on CPU components for functional units. Rule out I/O devices."
+                    }
+                ],
+                module2: [
+                    {
+                        question: "What does Booth’s algorithm optimize?",
+                        options: ["Binary addition", "Binary multiplication", "Binary division", "Binary subtraction"],
+                        correct: "Binary multiplication",
+                        explanation: "Booth’s algorithm optimizes binary multiplication for signed numbers by reducing partial products, speeding up ALU operations.",
+                        analysis: "In COA, Booth’s is key for efficient ALU design. Addition or division use different algorithms (e.g., restoring division).",
+                        tips: "Associate Booth’s with signed multiplication. Don’t confuse with division algorithms."
+                    },
+                    {
+                        question: "Which circuit type retains state?",
+                        options: ["Combinational", "Sequential", "Arithmetic", "Logic"],
+                        correct: "Sequential",
+                        explanation: "Sequential circuits use memory elements like flip-flops to retain state, unlike combinational circuits, which depend only on inputs.",
+                        analysis: "Sequential circuits are vital in COA for registers and counters. ‘Arithmetic’ or ‘Logic’ are not circuit types, causing confusion.",
+                        tips: "Link sequential to memory (flip-flops). Combinational outputs are immediate."
+                    },
+                    {
+                        question: "What is the purpose of a multiplexer?",
+                        options: ["Data storage", "Data selection", "Data amplification", "Data encryption"],
+                        correct: "Data selection",
+                        explanation: "A multiplexer selects one input from multiple sources based on a control signal, used in ALU and data paths.",
+                        analysis: "Multiplexers route data in COA, not store or encrypt it. ‘Amplification’ is unrelated to digital circuits.",
+                        tips: "Think of multiplexers as switches. Rule out storage (registers) or encryption."
+                    },
+                    {
+                        question: "What does IEEE 754 standardize?",
+                        options: ["Logic gates", "Floating-point", "Memory addressing", "Bus protocols"],
+                        correct: "Floating-point",
+                        explanation: "IEEE 754 defines floating-point number formats (e.g., 32-bit single precision), ensuring ALU consistency across systems.",
+                        analysis: "Floating-point operations are critical for ALU precision in COA. Other options are unrelated standards.",
+                        tips: "Link IEEE 754 to decimals in computing. Memorize its scope: numbers, not gates."
+                    },
+                    {
+                        question: "Which component is used in counters?",
+                        options: ["AND gate", "Flip-flop", "Decoder", "Adder"],
+                        correct: "Flip-flop",
+                        explanation: "Counters use flip-flops to store and update count states, driven by clock signals in sequential circuits.",
+                        analysis: "In COA, flip-flops enable sequential logic like counters. Adders handle arithmetic, not state retention.",
+                        tips: "Associate counters with flip-flops. Decoders select outputs, not count."
+                    },
+                    {
+                        question: "What is non-restoring division?",
+                        options: ["Division with remainder", "Division without subtraction", "Division with correction", "Division with addition"],
+                        correct: "Division with correction",
+                        explanation: "Non-restoring division simplifies binary division by correcting the remainder without restoring, used in ALU.",
+                        analysis: "This algorithm optimizes ALU division. ‘Without subtraction’ is misleading, as subtraction is involved but handled differently.",
+                        tips: "Recall non-restoring skips restoration step. Practice its flowchart."
+                    },
+                    {
+                        question: "What does a demultiplexer do?",
+                        options: ["Combine inputs", "Select outputs", "Store data", "Amplify signals"],
+                        correct: "Select outputs",
+                        explanation: "A demultiplexer routes one input to one of multiple outputs based on a control signal, used in data routing.",
+                        analysis: "In COA, demultiplexers complement multiplexers for output selection. Combining inputs is a multiplexer’s role.",
+                        tips: "Think demultiplexer as ‘one-to-many.’ Rule out storage or amplification."
+                    },
+                    {
+                        question: "Which gate performs logical negation?",
+                        options: ["AND", "OR", "NOT", "XOR"],
+                        correct: "NOT",
+                        explanation: "The NOT gate inverts its input (e.g., 1 → 0), used in ALU for complement operations.",
+                        analysis: "NOT gates are basic in COA for logic and arithmetic. XOR involves multiple inputs, unlike NOT’s single input.",
+                        tips: "NOT = inversion. Practice truth tables to avoid XOR confusion."
+                    },
+                    {
+                        question: "What is the role of an arithmetic pipeline?",
+                        options: ["Data transfer", "Parallel computation", "Instruction fetch", "Memory access"],
+                        correct: "Parallel computation",
+                        explanation: "Arithmetic pipelines break ALU computations into stages (e.g., add, shift), processing them in parallel for speed.",
+                        analysis: "Pipelining boosts ALU throughput in COA. Instruction fetch or memory access are CPU tasks, not ALU-specific.",
+                        tips: "Link pipelines to stages. Exclude CPU-specific tasks like fetching."
+                    },
+                    {
+                        question: "What does a flip-flop store?",
+                        options: ["Instruction", "Single bit", "Byte", "Address"],
+                        correct: "Single bit",
+                        explanation: "A flip-flop stores one bit, used in registers and sequential circuits for state retention.",
+                        analysis: "Flip-flops are the building blocks of COA registers. Bytes (8 bits) require multiple flip-flops; instructions are stored elsewhere.",
+                        tips: "Flip-flop = 1 bit. Check register sizes for byte questions."
+                    }
+                ],
+                module3: [
+                    {
+                        question: "Which I/O method uses CPU polling?",
+                        options: ["Interrupt-driven", "Programmed I/O", "DMA", "Bus arbitration"],
+                        correct: "Programmed I/O",
+                        explanation: "Programmed I/O requires the CPU to poll devices for data readiness, checking status registers repeatedly.",
+                        analysis: "In COA, programmed I/O is CPU-intensive, unlike DMA or interrupts, which offload tasks. Bus arbitration manages access, not I/O.",
+                        tips: "Link polling to CPU checking. DMA and interrupts reduce CPU load."
+                    },
+                    {
+                        question: "What does DMA stand for?",
+                        options: ["Dynamic Memory Access", "Direct Memory Access", "Distributed Memory Access", "Dual Memory Access"],
+                        correct: "Direct Memory Access",
+                        explanation: "DMA allows devices to transfer data to/from memory without CPU involvement, improving I/O efficiency.",
+                        analysis: "DMA is critical in COA for high-speed I/O, like disk transfers. ‘Dynamic’ or ‘Distributed’ are distractors unrelated to I/O.",
+                        tips: "Memorize DMA as ‘Direct.’ Check context: it’s I/O, not memory allocation."
+                    },
+                    {
+                        question: "What is a computer bus used for?",
+                        options: ["Data processing", "Data transfer", "Data storage", "Data encryption"],
+                        correct: "Data transfer",
+                        explanation: "A bus transfers data, addresses, and control signals between CPU, memory, and I/O devices.",
+                        analysis: "Buses are the backbone of COA communication. Processing (ALU), storage (memory), or encryption (software) are not bus functions.",
+                        tips: "Think bus = highway for data. Rule out unrelated tasks like encryption."
+                    },
+                    {
+                        question: "What is an interrupt’s purpose?",
+                        options: ["Store data", "Signal events", "Perform arithmetic", "Manage memory"],
+                        correct: "Signal events",
+                        explanation: "Interrupts signal the CPU about events (e.g., I/O completion, errors), prompting immediate action.",
+                        analysis: "Interrupts enable responsive I/O in COA. Storage, arithmetic, or memory management are handled by other components.",
+                        tips: "Link interrupts to ‘alerts.’ Avoid confusing with ALU or memory tasks."
+                    },
+                    {
+                        question: "Which bus carries memory locations?",
+                        options: ["Data bus", "Address bus", "Control bus", "System bus"],
+                        correct: "Address bus",
+                        explanation: "The address bus carries memory or I/O locations to specify where data is read/written.",
+                        analysis: "In COA, buses are specialized: address for locations, data for values, control for signals. System bus is a collective term.",
+                        tips: "Address bus = ‘where.’ Don’t mix with data bus (what’s transferred)."
+                    },
+                    {
+                        question: "What does a bus arbiter do?",
+                        options: ["Encrypt data", "Prioritize access", "Store addresses", "Amplify signals"],
+                        correct: "Prioritize access",
+                        explanation: "A bus arbiter manages access to a shared bus, prioritizing devices to avoid conflicts.",
+                        analysis: "Arbiters ensure efficient I/O in COA. Encryption or amplification are unrelated; addresses are managed by the address bus.",
+                        tips: "Think arbiter = traffic cop. Focus on bus sharing."
+                    },
+                    {
+                        question: "Which I/O method is fastest?",
+                        options: ["Programmed I/O", "Interrupt-driven", "DMA", "Polling"],
+                        correct: "DMA",
+                        explanation: "DMA transfers data directly between memory and devices, bypassing the CPU for maximum speed.",
+                        analysis: "In COA, DMA optimizes high-bandwidth I/O. Polling (programmed I/O) and interrupts are slower due to CPU involvement.",
+                        tips: "DMA = no CPU. Polling is slowest due to constant checks."
+                    },
+                    {
+                        question: "What is a peripheral device?",
+                        options: ["CPU", "Memory", "Printer", "ALU"],
+                        correct: "Printer",
+                        explanation: "Peripherals like printers are external I/O devices, unlike internal components (CPU, memory, ALU).",
+                        analysis: "Peripherals handle I/O in COA, interfacing with the external world. CPU and ALU are core processing units.",
+                        tips: "Peripherals = outside CPU. Exclude core components like ALU."
+                    },
+                    {
+                        question: "What does a control bus manage?",
+                        options: ["Data flow", "Memory addresses", "Operations", "Power supply"],
+                        correct: "Operations",
+                        explanation: "The control bus carries signals (e.g., read/write) to manage operations between components.",
+                        analysis: "Control buses coordinate COA tasks. Data flow (data bus) and addresses (address bus) are separate.",
+                        tips: "Control bus = signals. Don’t confuse with data or address roles."
+                    },
+                    {
+                        question: "What is synchronous I/O?",
+                        options: ["Timed with clock", "Event-driven", "CPU-independent", "Random access"],
+                        correct: "Timed with clock",
+                        explanation: "Synchronous I/O aligns data transfers with a system clock, ensuring precise timing.",
+                        analysis: "In COA, synchronous I/O suits high-speed devices. Event-driven is asynchronous; CPU-independent is DMA.",
+                        tips: "Synchronous = clock. Asynchronous uses interrupts."
+                    }
+                ],
+                module4: [
+                    {
+                        question: "What is the role of the control unit in a CPU?",
+                        options: ["Perform arithmetic", "Coordinate operations", "Store data", "Transfer data"],
+                        correct: "Coordinate operations",
+                        explanation: "The control unit fetches, decodes, and executes instructions, coordinating CPU operations.",
+                        analysis: "In COA, the control unit is the CPU’s ‘director.’ Arithmetic (ALU), storage (registers), and transfers (bus) are separate.",
+                        tips: "Link control unit to instruction cycle. Rule out ALU tasks."
+                    },
+                    {
+                        question: "Which addressing mode uses a register’s value?",
+                        options: ["Immediate", "Register", "Direct", "Indirect"],
+                        correct: "Register",
+                        explanation: "Register addressing mode uses a register’s value directly as the operand, speeding up CPU access.",
+                        analysis: "Addressing modes define CPU data access in COA. Immediate uses constants, direct uses memory, indirect uses pointers.",
+                        tips: "Register = fast access. Don’t confuse with indirect (memory via register)."
+                    },
+                    {
+                        question: "What does RISC stand for?",
+                        options: ["Rapid Instruction Set Computer", "Reduced Instruction Set Computer", "Random Instruction Set Computer", "Robust Instruction Set Computer"],
+                        correct: "Reduced Instruction Set Computer",
+                        explanation: "RISC simplifies instructions for faster CPU execution with fewer cycles per instruction.",
+                        analysis: "RISC vs. CISC shapes CPU design in COA. ‘Rapid’ is tempting but incorrect; RISC prioritizes simplicity.",
+                        tips: "RISC = reduced. Memorize acronym and focus: simpler instructions."
+                    },
+                    {
+                        question: "What is a register’s purpose?",
+                        options: ["Long-term storage", "Temporary storage", "Instruction decoding", "Bus control"],
+                        correct: "Temporary storage",
+                        explanation: "Registers store data temporarily during CPU processing, offering the fastest access.",
+                        analysis: "Registers are critical for CPU performance in COA. Long-term storage is memory; decoding is control unit’s role.",
+                        tips: "Registers = CPU’s scratchpad. Exclude memory or control tasks."
+                    },
+                    {
+                        question: "What does pipelining improve?",
+                        options: ["Memory size", "Instruction throughput", "Bus width", "Cache speed"],
+                        correct: "Instruction throughput",
+                        explanation: "Pipelining overlaps instruction stages (fetch, decode, execute), increasing CPU throughput.",
+                        analysis: "Pipelining is a core COA technique for speed. It doesn’t affect memory size or bus width directly.",
+                        tips: "Pipelining = overlap. Focus on instructions, not memory."
+                    },
+                    {
+                        question: "Which instruction type affects program flow?",
+                        options: ["Arithmetic", "Branch", "Load", "Store"],
+                        correct: "Branch",
+                        explanation: "Branch instructions (e.g., jump, call) change the program counter, altering CPU execution flow.",
+                        analysis: "Branching controls program logic in COA. Arithmetic (ALU) or load/store (memory) don’t affect flow.",
+                        tips: "Branch = control flow. Practice jumps vs. arithmetic."
+                    },
+                    {
+                        question: "What is the ALU’s primary function?",
+                        options: ["Fetch instructions", "Perform arithmetic/logic", "Manage memory", "Control signals"],
+                        correct: "Perform arithmetic/logic",
+                        explanation: "The ALU handles arithmetic (add, subtract) and logical operations (AND, OR) in the CPU.",
+                        analysis: "The ALU is the CPU’s computational core in COA. Fetching (control unit) or memory management are separate.",
+                        tips: "ALU = math/logic. Exclude control unit or memory roles."
+                    },
+                    {
+                        question: "What does CISC emphasize?",
+                        options: ["Simple instructions", "Complex instructions", "Single-cycle execution", "Parallel processing"],
+                        correct: "Complex instructions",
+                        explanation: "CISC uses complex instructions to reduce software complexity, often requiring multiple cycles.",
+                        analysis: "CISC vs. RISC defines CPU architecture in COA. Simple instructions are RISC; parallel processing is unrelated.",
+                        tips: "CISC = complex. Contrast with RISC’s simplicity."
+                    },
+                    {
+                        question: "What is an instruction cycle?",
+                        options: ["Fetch-execute loop", "Data transfer", "Memory allocation", "Bus arbitration"],
+                        correct: "Fetch-execute loop",
+                        explanation: "The instruction cycle involves fetching, decoding, and executing instructions, driven by the CPU.",
+                        analysis: "The cycle is the CPU’s heartbeat in COA. Transfers, allocation, or arbitration are distinct processes.",
+                        tips: "Cycle = fetch-decode-execute. Practice its steps."
+                    },
+                    {
+                        question: "Which mode accesses memory via a register?",
+                        options: ["Immediate", "Direct", "Indirect", "Indexed"],
+                        correct: "Indirect",
+                        explanation: "Indirect addressing uses a register’s value as a memory address to fetch the operand.",
+                        analysis: "Addressing modes optimize CPU access in COA. Direct uses fixed addresses, immediate uses constants.",
+                        tips: "Indirect = memory via register. Contrast with register mode."
+                    }
+                ],
+                module5: [
+                    {
+                        question: "Which memory is closest to the CPU?",
+                        options: ["Main memory", "Cache memory", "Secondary memory", "Virtual memory"],
+                        correct: "Cache memory",
+                        explanation: "Cache memory is closest to the CPU, storing frequently used data for fast access, reducing latency.",
+                        analysis: "Cache is critical in COA for performance. Main memory (RAM) is slower, secondary (disks) is external, virtual is logical.",
+                        tips: "Cache = speed. Don’t confuse with RAM or virtual memory."
+                    },
+                    {
+                        question: "What does paging enable in memory management?",
+                        options: ["Data encryption", "Virtual memory", "Cache coherence", "Data compression"],
+                        correct: "Virtual memory",
+                        explanation: "Paging divides memory into fixed-size pages, enabling virtual memory to simulate larger address spaces.",
+                        analysis: "Virtual memory is key in COA for multitasking. Coherence is cache-related, encryption/compression are unrelated.",
+                        tips: "Paging = virtual memory. Focus on memory management, not cache."
+                    },
+                    {
+                        question: "Which page replacement algorithm uses recency?",
+                        options: ["FIFO", "LRU", "Optimal", "Random"],
+                        correct: "LRU",
+                        explanation: "LRU (Least Recently Used) replaces the page not accessed for the longest time, using recency.",
+                        analysis: "LRU optimizes memory in COA by predicting future access. FIFO ignores recency, optimal is theoretical.",
+                        tips: "LRU = recent access. Practice vs. FIFO (first-in, first-out)."
+                    },
+                    {
+                        question: "What is cache coherence?",
+                        options: ["Data encryption", "Consistency across caches", "Memory allocation", "Page replacement"],
+                        correct: "Consistency across caches",
+                        explanation: "Cache coherence ensures multiple caches (e.g., in multi-core CPUs) have consistent data copies.",
+                        analysis: "Coherence is vital in COA for multi-core systems. Encryption or allocation are unrelated to caches.",
+                        tips: "Coherence = same data. Link to multi-core CPUs."
+                    },
+                    {
+                        question: "Which memory is non-volatile?",
+                        options: ["RAM", "Cache", "ROM", "Register"],
+                        correct: "ROM",
+                        explanation: "ROM retains data without power, unlike volatile RAM, cache, or registers, used for firmware.",
+                        analysis: "Non-volatile memory preserves boot instructions in COA. RAM/cache lose data on power-off.",
+                        tips: "ROM = permanent. Rule out volatile memories like RAM."
+                    },
+                    {
+                        question: "What does a TLB store?",
+                        options: ["Instructions", "Page translations", "Cache lines", "Registers"],
+                        correct: "Page translations",
+                        explanation: "The TLB (Translation Lookaside Buffer) caches page table entries for faster virtual-to-physical address translation.",
+                        analysis: "TLBs speed up memory access in COA. Cache lines are for cache, registers hold data, instructions are separate.",
+                        tips: "TLB = address translation. Don’t mix with cache or registers."
+                    },
+                    {
+                        question: "What is virtual memory’s benefit?",
+                        options: ["Faster execution", "Larger address space", "Reduced latency", "Permanent storage"],
+                        correct: "Larger address space",
+                        explanation: "Virtual memory allows programs to use more memory than physically available via paging.",
+                        analysis: "In COA, virtual memory enables multitasking. Speed or latency depend on cache, not virtual memory.",
+                        tips: "Virtual = more space. Exclude speed-related options."
+                    },
+                    {
+                        question: "Which mapping associates cache blocks?",
+                        options: ["Direct", "Associative", "Set-associative", "All of these"],
+                        correct: "All of these",
+                        explanation: "Direct, associative, and set-associative mappings define how cache blocks link to memory in COA.",
+                        analysis: "Cache mapping balances speed and flexibility in COA. All are valid, but differ in complexity.",
+                        tips: "All mappings apply. Learn differences: direct is simple, associative is flexible."
+                    },
+                    {
+                        question: "What does RAM stand for?",
+                        options: ["Read Access Memory", "Random Access Memory", "Rapid Access Memory", "Remote Access Memory"],
+                        correct: "Random Access Memory",
+                        explanation: "RAM allows data access in any order, serving as main memory in computers.",
+                        analysis: "RAM is the primary working memory in COA. ‘Read’ or ‘Rapid’ are distractors; random access defines its flexibility.",
+                        tips: "RAM = random. Focus on access pattern, not speed."
+                    },
+                    {
+                        question: "What is a page fault?",
+                        options: ["Cache miss", "Memory overflow", "Missing page", "Bus error"],
+                        correct: "Missing page",
+                        explanation: "A page fault occurs when a requested page is not in main memory, triggering a disk fetch.",
+                        analysis: "Page faults manage virtual memory in COA. Cache misses are similar but distinct; overflows are unrelated.",
+                        tips: "Page fault = disk fetch. Don’t confuse with cache miss."
+                    }
+                ],
+                module6: [
+                    {
+                        question: "What does SIMD stand for?",
+                        options: ["Single Instruction, Multiple Data", "Single Instruction, Many Data", "System Instruction, Multiple Data", "Sequential Instruction, Multiple Data"],
+                        correct: "Single Instruction, Multiple Data",
+                        explanation: "SIMD executes one instruction on multiple data points simultaneously, used in parallel processing like GPUs.",
+                        analysis: "SIMD boosts performance in COA for tasks like graphics. Other options are distractors; ‘Many Data’ sounds close but is non-standard.",
+                        tips: "SIMD = one instruction, many data. Link to parallel tasks."
+                    },
+                    {
+                        question: "Which architecture uses multiple CPUs?",
+                        options: ["SISD", "MIMD", "SIMD", "MISD"],
+                        correct: "MIMD",
+                        explanation: "MIMD (Multiple Instruction, Multiple Data) runs different instructions on multiple CPUs, enabling complex parallelism.",
+                        analysis: "MIMD suits multi-core systems in COA. SISD is single-core, SIMD is data-parallel, MISD is rare.",
+                        tips: "MIMD = multiple CPUs. Learn Flynn’s taxonomy for clarity."
+                    },
+                    {
+                        question: "What is a key feature of parallel processing?",
+                        options: ["Sequential execution", "Concurrent execution", "Single-thread execution", "Isolated execution"],
+                        correct: "Concurrent execution",
+                        explanation: "Parallel processing runs multiple tasks concurrently, leveraging multiple processors for speed.",
+                        analysis: "Concurrency defines parallelism in COA. Sequential or single-thread execution contradicts parallelism.",
+                        tips: "Parallel = concurrent. Rule out sequential or single-thread."
+                    },
+                    {
+                        question: "What is Flynn’s taxonomy used for?",
+                        options: ["Memory management", "Classifying architectures", "Instruction decoding", "Bus design"],
+                        correct: "Classifying architectures",
+                        explanation: "Flynn’s taxonomy categorizes architectures (SISD, SIMD, MIMD, MISD) based on instruction and data streams.",
+                        analysis: "In COA, Flynn’s defines parallel systems. Memory, decoding, or buses are unrelated to this classification.",
+                        tips: "Flynn’s = architecture types. Memorize SISD, SIMD, etc."
+                    },
+                    {
+                        question: "What does a pipeline do in parallel systems?",
+                        options: ["Store data", "Overlap tasks", "Encrypt data", "Manage memory"],
+                        correct: "Overlap tasks",
+                        explanation: "Pipelining overlaps task stages (e.g., fetch, execute) to improve throughput in parallel systems.",
+                        analysis: "Pipelining enhances parallelism in COA, distinct from storage, encryption, or memory management.",
+                        tips: "Pipeline = stages. Focus on task overlap, not storage."
+                    },
+                    {
+                        question: "Which system uses shared memory?",
+                        options: ["Distributed", "Multiprocessor", "Single-core", "Sequential"],
+                        correct: "Multiprocessor",
+                        explanation: "Multiprocessor systems share memory among CPUs for coordinated parallel processing.",
+                        analysis: "Shared memory enables fast communication in COA. Distributed systems use separate memories; single-core doesn’t parallelize.",
+                        tips: "Multiprocessor = shared. Contrast with distributed systems."
+                    },
+                    {
+                        question: "What is Amdahl’s law related to?",
+                        options: ["Cache size", "Parallel speedup", "Bus width", "Memory latency"],
+                        correct: "Parallel speedup",
+                        explanation: "Amdahl’s law predicts the maximum speedup from parallelism, limited by sequential code.",
+                        analysis: "In COA, Amdahl’s guides parallel design. Cache, bus, or latency are performance factors, not laws.",
+                        tips: "Amdahl’s = speedup limit. Focus on sequential vs. parallel."
+                    },
+                    {
+                        question: "What does MISD stand for?",
+                        options: ["Multiple Instruction, Single Data", "Multiple Instruction, System Data", "Many Instruction, Single Data", "Multiple Instruction, Sequential Data"],
+                        correct: "Multiple Instruction, Single Data",
+                        explanation: "MISD applies multiple instructions to one data stream, rarely used but part of Flynn’s taxonomy.",
+                        analysis: "MISD is theoretical in COA, unlike practical MIMD or SIMD. Other options are non-standard.",
+                        tips: "MISD = rare case. Learn Flynn’s categories fully."
+                    },
+                    {
+                        question: "What is a GPU’s role in parallelism?",
+                        options: ["Sequential tasks", "Massive parallel tasks", "Instruction fetch", "Memory management"],
+                        correct: "Massive parallel tasks",
+                        explanation: "GPUs handle thousands of parallel tasks, ideal for graphics and computations like matrix operations.",
+                        analysis: "GPUs leverage SIMD in COA for parallelism. Fetching or memory management are CPU tasks.",
+                        tips: "GPU = many threads. Link to graphics or AI tasks."
+                    },
+                    {
+                        question: "What limits parallel performance?",
+                        options: ["Cache size", "Sequential code", "Bus speed", "Register count"],
+                        correct: "Sequential code",
+                        explanation: "Sequential code cannot be parallelized, limiting speedup per Amdahl’s law.",
+                        analysis: "In COA, sequential bottlenecks cap parallelism. Cache or bus affect performance but aren’t primary limits.",
+                        tips: "Sequential = bottleneck. Study Amdahl’s for clarity."
+                    }
+                ]
+            };
+
+            // Module selection
+            const buttons = document.querySelectorAll('.module-btn');
+            const quizContainer = document.getElementById('quizContainer');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Clear active states
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    // Get module and questions
+                    const moduleId = button.getAttribute('data-module');
+                    const moduleQuestions = questions[moduleId];
+
+                    // Randomly select 5 questions
+                    const shuffled = moduleQuestions.sort(() => Math.random() - 0.5).slice(0, 5);
+
+                    // Generate quiz form
+                    quizContainer.innerHTML = `
+                        <form id="quizForm">
+                            ${shuffled.map((q, index) => `
+                                <div class="quiz-card" data-correct="${q.correct}" data-explanation="${q.explanation}" data-analysis="${q.analysis}" data-tips="${q.tips}">
+                                    <h5>${index + 1}. ${q.question}</h5>
+                                    ${q.options.map((option, i) => `
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="q${index + 1}" id="q${index + 1}${i}" value="${option}">
+                                            <label class="form-check-label" for="q${index + 1}${i}">${option}</label>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `).join('')}
+                            <button type="submit" class="btn btn-primary">Submit Quiz</button>
+                            <div id="quizResult"></div>
+                        </form>
+                    `;
+
+                    // Handle quiz submission
+                    const form = document.getElementById('quizForm');
+                    form.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        let score = 0;
+                        const resultDiv = document.getElementById('quizResult');
+                        const quizCards = form.querySelectorAll('.quiz-card');
+
+                        let evaluationHTML = '<h4 class="mt-3">Solution Analysis</h4>';
+
+                        quizCards.forEach((card, i) => {
+                            const selected = card.querySelector('input:checked');
+                            const correct = card.getAttribute('data-correct');
+                            const explanation = card.getAttribute('data-explanation');
+                            const analysis = card.getAttribute('data-analysis');
+                            const tips = card.getAttribute('data-tips');
+                            const question = card.querySelector('h5').textContent;
+
+                            if (selected && selected.value === correct) {
+                                score++;
+                                evaluationHTML += `
+                                    <div class="evaluation correct">
+                                        <p><strong>${question}</strong></p>
+                                        <p>Your answer: ${selected.value} (Correct)</p>
+                                        <h6>Explanation:</h6>
+                                        <p>${explanation}</p>
+                                        <h6>Analysis:</h6>
+                                        <p>${analysis}</p>
+                                        <h6>Tips:</h6>
+                                        <p>${tips}</p>
+                                    </div>
+                                `;
+                            } else {
+                                evaluationHTML += `
+                                    <div class="evaluation incorrect">
+                                        <p><strong>${question}</strong></p>
+                                        <p>Your answer: ${selected ? selected.value : 'None'} (Incorrect)</p>
+                                        <p>Correct answer: ${correct}</p>
+                                        <h6>Explanation:</h6>
+                                        <p>${explanation}</p>
+                                        <h6>Analysis:</h6>
+                                        <p>${analysis}</p>
+                                        <h6>Tips:</h6>
+                                        <p>${tips}</p>
+                                    </div>
+                                `;
+                            }
+                        });
+
+                        resultDiv.innerHTML = `
+                            <h3 class="mt-3">Score: ${score} out of ${quizCards.length}</h3>
+                            ${evaluationHTML}
+                        `;
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row =>
+                    row.some(cell => cell !== '' && cell !== null && cell !== undefined)
+                );
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COA Knowledge Hub - About Us</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --light-bg: #ecf0f1;
+            --dark-text: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+        }
+        
+        .navbar {
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+        }
+        
+        .section-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            background-color: #fff;
+            margin-bottom: 2rem;
+        }
+        
+        .section-icon {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .social-link {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+        }
+        
+        .social-link:hover {
+            color: #2980b9;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-laptop-code me-2"></i>COA Knowledge Hub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="modules.html"><i class="fas fa-layer-group me-1"></i> Modules</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="materials.html"><i class="fas fa-book me-1"></i> Study Materials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="videos.html"><i class="fas fa-video me-1"></i> Video Lectures</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="blogs.html"><i class="fas fa-blog me-1"></i> Blogs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html"><i class="fas fa-info-circle me-1"></i> About Us</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <div class="input-group">
+                        <input class="form-control" type="search" placeholder="Search topics..." aria-label="Search">
+                        <button class="btn btn-outline-light" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-5 fw-bold mb-3">About Us</h1>
+            <p class="lead mb-4">Learn about our mission to empower students with Computer Organization and Architecture knowledge</p>
+        </div>
+    </section>
+
+    <!-- About Content -->
+    <div class="container">
+        <section class="mb-5">
+            <!-- Mission -->
+            <div class="section-card">
+                <div class="text-center">
+                    <i class="fas fa-graduation-cap section-icon"></i>
+                    <h2 class="mb-3">Our Mission</h2>
+                </div>
+                <p>
+                    At COA Knowledge Hub, we are dedicated to making Computer Organization and Architecture accessible and engaging for students worldwide. Our goal is to provide comprehensive, structured resources that simplify complex concepts, from computer evolution to parallel processing, empowering learners to excel in their studies and beyond.
+                </p>
+            </div>
+            <!-- Features -->
+            <div class="section-card">
+                <div class="text-center">
+                    <i class="fas fa-tools section-icon"></i>
+                    <h2 class="mb-3">What We Offer</h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <h5>Structured Modules</h5>
+                        <p>Six carefully designed modules covering the COA syllabus, with clear explanations and practical insights.</p>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h5>Study Materials</h5>
+                        <p>Downloadable zip files for each module, packed with notes, cheat sheets, and more to support your learning.</p>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <h5>Interactive Tools</h5>
+                        <p>Tools like our number system converter help you practice key concepts hands-on, right on the website.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Contact -->
+            <div class="section-card text-center">
+                <i class="fas fa-envelope section-icon"></i>
+                <h2 class="mb-3">Get in Touch</h2>
+                <p>
+                    Created by Sathya Prakash, COA Knowledge Hub is here to support your learning journey. Have questions or suggestions? Reach out!
+                </p>
+                <p>
+                    <strong>Email:</strong> <a href="mailto:prakashdsp897@gmail.com">prakashdsp897@gmail.com</a>
+                </p>
+                <div class="mt-3">
+                    <a href="https://www.linkedin.com/in/sathyaprakashdorasanipalle" class="social-link" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com/prakash323" class="social-link" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.facebook.com/dorasanipalli.elisha.1/" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/d.sathya_prakash_06" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>COA Knowledge Hub</h5>
+                    <p>Your comprehensive resource for Computer Organization and Architecture</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="modules.html" class="text-white">Modules</a></li>
+                        <li><a href="materials.html" class="text-white">Study Materials</a></li>
+                        <li><a href="videos.html" class="text-white">Video Lectures</a></li>
+                        <li><a href="blogs.html" class="text-white">Blogs</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Connect With Us</h5>
+                    <div class="social-icons">
+                        <a href="https://www.linkedin.com/in/sathyaprakashdorasanipalle" class="text-white me-2" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/prakash323" class="text-white me-2" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.facebook.com/dorasanipalli.elisha.1/" class="text-white me-2" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/d.sathya_prakash_06" class="text-white" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <p class="mb-0">© 2023 COA Knowledge Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COA Knowledge Hub - Home</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --light-bg: #ecf0f1;
+            --dark-text: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+        }
+        
+        .navbar {
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 5rem 0;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-card {
+            transition: transform 0.3s ease;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        
+        .carousel-item img {
+            height: 400px;
+            object-fit: cover;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        
+        .tool-result {
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+        
+        .monospace-font {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+        }
+        
+        .card-header {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .explanation-window {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .explanation-window h5 {
+            margin-bottom: 15px;
+        }
+        
+        .tool-logo {
+            color: var(--accent-color);
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-left: 10px;
+        }
+        
+        .tool-logo:hover {
+            color: #2980b9;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 3rem 0;
+            }
+            
+            .carousel-item img {
+                height: 250px;
+            }
+            
+            .explanation-window {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-laptop-code me-2"></i>COA Knowledge Hub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="modules.html"><i class="fas fa-layer-group me-1"></i> Modules</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="materials.html"><i class="fas fa-book me-1"></i> Study Materials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="videos.html"><i class="fas fa-video me-1"></i> Video Lectures</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="blogs.html"><i class="fas fa-blog me-1"></i> Blogs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html"><i class="fas fa-info-circle me-1"></i> About Us</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <div class="input-group">
+                        <input class="form-control" type="search" placeholder="Search topics..." aria-label="Search">
+                        <button class="btn btn-outline-light" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-3">COA Knowledge Hub</h1>
+            <p class="lead mb-4">Your One-Stop Resource for Mastering Computer Organization and Architecture</p>
+            <a href="modules.html" class="btn btn-light btn-lg me-2">Explore Modules</a>
+            <a href="materials.html" class="btn btn-outline-light btn-lg">Study Materials</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Introduction Section -->
+        <section class="mb-5">
+            <h2 class="text-center mb-4">Welcome to Computer Organization & Architecture</h2>
+            <p class="lead text-center">
+                Computer Organization and Architecture is a fundamental course in computer science that deals with 
+                the design and operation of computer systems. Our comprehensive resources will help you understand 
+                everything from basic digital logic to advanced processor architectures.
+            </p>
+        </section>
+
+        <!-- Features Carousel -->
+        <section class="mb-5">
+            <div id="featureCarousel" class="carousel slide shadow-lg rounded" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#featureCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#featureCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#featureCarousel" data-bs-slide-to="2"></button>
+                </div>
+                <div class="carousel-inner rounded">
+                    <div class="carousel-item active">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" class="d-block w-100" alt="CPU Architecture">
+                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded">
+                            <h5>CPU Architecture</h5>
+                            <p>Understand the inner workings of modern processors</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" class="d-block w-100" alt="Memory Hierarchy">
+                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded">
+                            <h5>Memory Hierarchy</h5>
+                            <p>Explore the different levels of memory organization</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1639762681057-408e52192e55?ixlib=rb-4.0.3&auto=format&fit=crop&w=1632&q=80" class="d-block w-100" alt="Digital Logic">
+                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded">
+                            <h5>Digital Logic</h5>
+                            <p>Learn the building blocks of computer systems</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#featureCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#featureCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="mb-5">
+            <h2 class="text-center mb-5">Key Features</h2>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-layer-group"></i>
+                            </div>
+                            <h5 class="card-title">Structured Modules</h5>
+                            <p class="card-text">Comprehensive learning path covering all COA topics from basic to advanced concepts.</p>
+                            <a href="modules.html" class="btn btn-sm btn-primary">Explore Modules</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <h5 class="card-title">Study Materials</h5>
+                            <p class="card-text">Downloadable PDFs, lecture notes, and textbook recommendations for in-depth study.</p>
+                            <a href="materials.html" class="btn btn-sm btn-primary">View Materials</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <h5 class="card-title">Video Lectures</h5>
+                            <p class="card-text">High-quality video explanations of complex topics with progress tracking.</p>
+                            <a href="videos.html" class="btn btn-sm btn-primary">Watch Videos</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
+                            <h5 class="card-title">Interactive Quizzes</h5>
+                            <p class="card-text">Test your knowledge with module-wise quizzes and get instant feedback.</p>
+                            <a href="quiz.html" class="btn btn-sm btn-primary">Try Quizzes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Tools Section -->
+        <section class="mb-5">
+            <h2 class="text-center mb-4">Quick Tools</h2>
+            <div class="row g-4">
+                <!-- Number System & Code Converter -->
+                <div class="col-md-6">
+                    <div class="card feature-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-arrow-right-arrow-left me-2"></i>Number System & Code Converter</h5>
+                            <p class="card-text">Convert between Binary, Octal, Decimal, Hex, Gray, and BCD formats.</p>
+                            <ul class="nav nav-tabs mb-3">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-bs-toggle="tab" href="#codeConverter">Code Converter</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#numberConverter">Number System</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <!-- Code Converter -->
+                                <div class="tab-pane fade show active" id="codeConverter">
+                                    <form id="conversionForm">
+                                        <div class="mb-3">
+                                            <label for="conversionType" class="form-label">Conversion Type</label>
+                                            <select class="form-select" id="conversionType" required>
+                                                <option value="" data-video="" disabled selected>Select conversion</option>
+                                                <option value="gray-to-binary" data-video="https://youtu.be/-qMm9hhvp9Y?si=y7lVW6-AM4bNSSWX">Gray to Binary</option>
+                                                <option value="binary-to-gray" data-video="https://youtu.be/R7uuIACpdGQ?si=CHmooumjxQANzR-i">Binary to Gray</option>
+                                                <option value="binary-to-bcd" data-video="https://youtu.be/WqsJE2rPVik?si=xc60fVQ6g8DLXCxC">Binary to BCD</option>
+                                                <option value="bcd-to-binary" data-video="https://youtu.be/3d4BUjqhkHs?si=9jKBAmdwOdYlX9Iw">BCD to Binary</option>
+                                                <option value="gray-to-bcd" data-video="https://youtu.be/nNhKxWfUu08?si=PyYQ251TVTwfM7Rd">Gray to BCD</option>
+                                                <option value="bcd-to-gray" data-video="https://youtu.be/LBHNYduPqqE?si=Q2lo_9bF3L4ReLOD">BCD to Gray</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="conversionInput" class="form-label">Input</label>
+                                            <input type="text" class="form-control" id="conversionInput" placeholder="Enter code" required>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-arrow-right-arrow-left me-1"></i>Convert
+                                            </button>
+                                            <i class="fas fa-question-circle tool-logo ms-2" data-tool="codeConverter" title="Explain Conversion" aria-label="Explain Conversion"></i>
+                                            <a href="#" target="_blank" class="tool-logo ms-2 video-logo" id="codeConverterVideo">
+                                                <i class="fas fa-play-circle" title="Watch Video" aria-label="Watch Video"></i>
+                                            </a>
+                                        </div>
+                                    </form>
+                                    <div id="conversionResult" class="tool-result"></div>
+                                </div>
+                                <!-- Number System Converter -->
+                                <div class="tab-pane fade" id="numberConverter">
+                                    <form id="numberSystemForm">
+                                        <div class="mb-3">
+                                            <label for="inputBase" class="form-label">Input Base</label>
+                                            <select class="form-select" id="inputBase" required>
+                                                <option value="" data-video="" disabled selected>Select input base</option>
+                                                <option value="binary" data-video="/videos/number-binary">Binary</option>
+                                                <option value="octal" data-video="/videos/number-octal">Octal</option>
+                                                <option value="decimal" data-video="/videos/number-decimal">Decimal</option>
+                                                <option value="hex" data-video="/videos/number-hex">Hexadecimal</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="numberInput" class="form-label">Input Number</label>
+                                            <input type="text" class="form-control" id="numberInput" placeholder="e.g., 101.101 or 12.34" required>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-arrow-right-arrow-left me-1"></i>Convert
+                                            </button>
+                                            <i class="fas fa-question-circle tool-logo ms-2" data-tool="numberConverter" title="Explain Conversion" aria-label="Explain Conversion"></i>
+                                            <a href="#" target="_blank" class="tool-logo ms-2 video-logo" id="numberConverterVideo">
+                                                <i class="fas fa-play-circle" title="Watch Video" aria-label="Watch Video"></i>
+                                            </a>
+                                        </div>
+                                    </form>
+                                    <div id="numberResult" class="tool-result"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Calculators -->
+                <div class="col-md-6">
+                    <div class="card feature-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-calculator me-2"></i>Calculators</h5>
+                            <p class="card-text">Tools for IEEE 754 floating-point conversion and 8086 physical address calculation.</p>
+                            <ul class="nav nav-tabs mb-3">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-bs-toggle="tab" href="#ieee754">IEEE 754</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#physicalAddress">Physical Address</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <!-- IEEE 754 Floating-Point Converter -->
+                                <div class="tab-pane fade show active" id="ieee754">
+                                    <div class="card-header bg-primary text-white">
+                                        <i class="fas fa-water me-2"></i>IEEE 754 Floating-Point Converter
+                                    </div>
+                                    <form id="floatForm" class="mt-3">
+                                        <div class="mb-3">
+                                            <label class="form-label">Precision</label>
+                                            <select class="form-select" id="floatType">
+                                                <option value="32" data-video="https://youtu.be/9lLpAFapndo?si=8IcN6sR-EZPl5FuX">Single (32-bit)</option>
+                                                <option value="64" data-video="https://youtu.be/9lLpAFapndo?si=8IcN6sR-EZPl5FuX">Double (64-bit)</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Decimal Number</label>
+                                            <input type="number" step="any" class="form-control" id="decimalInput" placeholder="e.g., -12.375" required>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <button type="submit" class="btn btn-primary">Convert</button>
+                                            <i class="fas fa-question-circle tool-logo ms-2" data-tool="ieee754" title="Explain Conversion" aria-label="Explain Conversion"></i>
+                                            <a href="#" target="_blank" class="tool-logo ms-2 video-logo" id="ieee754Video">
+                                                <i class="fas fa-play-circle" title="Watch Video" aria-label="Watch Video"></i>
+                                            </a>
+                                        </div>
+                                    </form>
+                                    <div id="floatResult" class="mt-3 p-3 bg-light rounded">
+                                        <h5>IEEE 754 Representation:</h5>
+                                        <div class="row">
+                                            <div class="col-2 text-center text-danger">Sign</div>
+                                            <div class="col-8 text-center text-primary">Exponent</div>
+                                            <div class="col-2 text-center text-success">Mantissa</div>
+                                        </div>
+                                        <div id="bitDisplay" class="monospace-font my-2 p-2 bg-dark text-white rounded"></div>
+                                        <div id="roundingError" class="tool-result"></div>
+                                    </div>
+                                </div>
+                                <!-- Physical Address Calculator -->
+                                <div class="tab-pane fade" id="physicalAddress">
+                                    <div class="card-header bg-primary text-white">
+                                        <i class="fas fa-memory me-2"></i>8086 Physical Address Calculator
+                                    </div>
+                                    <form id="physicalAddressForm" class="mt-3">
+                                        <div class="mb-3">
+                                            <label for="segmentInput" class="form-label">Segment (Hex)</label>
+                                            <input type="text" class="form-control" id="segmentInput" placeholder="e.g., 1A2B" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="offsetInput" class="form-label">Offset (Hex)</label>
+                                            <input type="text" class="form-control" id="offsetInput" placeholder="e.g., 3C4D" required>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <button type="submit" class="btn btn-primary">Calculate</button>
+                                            <i class="fas fa-question-circle tool-logo ms-2" data-tool="physicalAddress" title="Explain Calculation" aria-label="Explain Calculation"></i>
+                                            <a href="/videos/physical-address" target="_blank" class="tool-logo ms-2 video-logo" id="physicalAddressVideo">
+                                                <i class="fas fa-play-circle" title="Watch Video" aria-label="Watch Video"></i>
+                                            </a>
+                                        </div>
+                                    </form>
+                                    <div id="physicalAddressResult" class="mt-3 p-3 bg-light rounded">
+                                        <h5>Physical Address:</h5>
+                                        <div id="addressOutput" class="tool-result"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Explanation Floating Window -->
+        <div id="explanationWindow" class="explanation-window">
+            <h5 id="explanationTitle"></h5>
+            <div id="explanationContent"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>COA Knowledge Hub</h5>
+                    <p>Your comprehensive resource for Computer Organization and Architecture</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-white">Home</a></li>
+                        <li><a href="modules.html" class="text-white">Modules</a></li>
+                        <li><a href="materials.html" class="text-white">Study Materials</a></li>
+                        <li><a href="videos.html" class="text-white">Video Lectures</a></li>
+                        <li><a href="blogs.html" class="text-white">Blogs</a></li>
+                        <li><a href="posters.html" class="text-white">Posters</a></li>
+                        <li><a href="about.html" class="text-white">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Connect With Us</h5>
+                    <div class="social-icons">
+                        <a href="https://www.linkedin.com/in/sathyaprakashdorasanipalle" class="text-white me-2" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/prakash323" class="text-white me-2" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.facebook.com/dorasanipalli.elisha.1/" class="text-white me-2" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/d.sathya_prakash_06" class="text-white" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <p class="mb-0">© 2025 COA Knowledge Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        // Initialize video links on page load
+        function updateVideoLink(selectId, videoLinkId) {
+            const select = document.getElementById(selectId);
+            const videoLink = document.getElementById(videoLinkId);
+            const selectedOption = select.options[select.selectedIndex];
+            videoLink.href = selectedOption.dataset.video || '#';
+        }
+
+        // Update video links when dropdown changes
+        document.getElementById('conversionType').addEventListener('change', () => {
+            updateVideoLink('conversionType', 'codeConverterVideo');
+        });
+        document.getElementById('inputBase').addEventListener('change', () => {
+            updateVideoLink('inputBase', 'numberConverterVideo');
+        });
+        document.getElementById('floatType').addEventListener('change', () => {
+            updateVideoLink('floatType', 'ieee754Video');
+        });
+
+        // Initialize video links
+        updateVideoLink('conversionType', 'codeConverterVideo');
+        updateVideoLink('inputBase', 'numberConverterVideo');
+        updateVideoLink('floatType', 'ieee754Video');
+
+        // Code Converter Logic
+        document.getElementById('conversionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const type = document.getElementById('conversionType').value;
+            const input = document.getElementById('conversionInput').value.trim();
+            const resultDiv = document.getElementById('conversionResult');
+            resultDiv.textContent = '';
+
+            const binaryRegex = /^[01]+$/;
+            const bcdRegex = /^[0-9]+$/;
+
+            function binaryToGray(binary) {
+                let gray = binary[0];
+                for (let i = 1; i < binary.length; i++) {
+                    gray += (parseInt(binary[i]) ^ parseInt(binary[i-1])).toString();
+                }
+                return gray;
+            }
+
+            function grayToBinary(gray) {
+                let binary = gray[0];
+                for (let i = 1; i < gray.length; i++) {
+                    binary += (parseInt(binary[i-1]) ^ parseInt(gray[i])).toString();
+                }
+                return binary;
+            }
+
+            function binaryToBCD(binary) {
+                if (!binaryRegex.test(binary)) return 'Invalid Binary';
+                const decimal = parseInt(binary, 2);
+                if (decimal > 9999) return 'Number too large';
+                let bcd = '';
+                let num = decimal;
+                if (num === 0) return '0000';
+                while (num > 0) {
+                    let digit = (num % 10).toString(2).padStart(4, '0');
+                    bcd = digit + bcd;
+                    num = Math.floor(num / 10);
+                }
+                return bcd;
+            }
+
+            function bcdToBinary(bcd) {
+                if (!bcdRegex.test(bcd) || bcd.length % 4 !== 0) return 'Invalid BCD';
+                let decimal = 0;
+                for (let i = 0; i < bcd.length; i += 4) {
+                    let digit = parseInt(bcd.slice(i, i + 4), 2);
+                    if (digit > 9) return 'Invalid BCD digit';
+                    decimal = decimal * 10 + digit;
+                }
+                return decimal.toString(2);
+            }
+
+            try {
+                let result;
+                if (type === 'gray-to-binary') {
+                    if (!binaryRegex.test(input)) throw 'Invalid Gray code';
+                    result = grayToBinary(input);
+                } else if (type === 'binary-to-gray') {
+                    if (!binaryRegex.test(input)) throw 'Invalid Binary';
+                    result = binaryToGray(input);
+                } else if (type === 'binary-to-bcd') {
+                    result = binaryToBCD(input);
+                } else if (type === 'bcd-to-binary') {
+                    result = bcdToBinary(input);
+                } else if (type === 'gray-to-bcd') {
+                    if (!binaryRegex.test(input)) throw 'Invalid Gray code';
+                    const binary = grayToBinary(input);
+                    result = binaryToBCD(binary);
+                } else if (type === 'bcd-to-gray') {
+                    const binary = bcdToBinary(input);
+                    if (binary.startsWith('Invalid')) throw binary;
+                    result = binaryToGray(binary);
+                }
+                resultDiv.textContent = `Result: ${result}`;
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error}`;
+            }
+        });
+
+        // Explanation Generation for Code Converter
+        function generateCodeConverterExplanation(type, input) {
+            const binaryRegex = /^[01]+$/;
+            const bcdRegex = /^[0-9]+$/;
+
+            let title, steps = [];
+
+            function binaryToGrayExplanation(binary) {
+                steps.push(`Input: ${binary} (Binary)`);
+                let gray = binary[0];
+                steps.push(`Step 1: Bit 1 = ${binary[0]} (copy)`);
+                for (let i = 1; i < binary.length; i++) {
+                    let bit = (parseInt(binary[i]) ^ parseInt(binary[i-1])).toString();
+                    steps.push(`Step ${i + 1}: Bit ${i + 1} = ${binary[i]} XOR ${binary[i-1]} = ${bit}`);
+                    gray += bit;
+                }
+                steps.push(`Output: ${gray} (Gray)`);
+                return gray;
+            }
+
+            function grayToBinaryExplanation(gray) {
+                steps.push(`Input: ${gray} (Gray)`);
+                let binary = gray[0];
+                steps.push(`Step 1: Bit 1 = ${gray[0]} (copy)`);
+                for (let i = 1; i < gray.length; i++) {
+                    let prevBinary = binary[i-1];
+                    let bit = (parseInt(prevBinary) ^ parseInt(gray[i])).toString();
+                    steps.push(`Step ${i + 1}: Bit ${i + 1} = ${prevBinary} XOR ${gray[i]} = ${bit}`);
+                    binary += bit;
+                }
+                steps.push(`Output: ${binary} (Binary)`);
+                return binary;
+            }
+
+            function binaryToBCDExplanation(binary) {
+                if (!binaryRegex.test(binary)) {
+                    return 'Invalid Binary: Use only 0s and 1s';
+                }
+                const decimal = parseInt(binary, 2);
+                if (decimal > 9999) {
+                    return 'Number too large: Decimal must be ≤ 9999';
+                }
+                steps.push(`Input: ${binary} (Binary)`);
+                steps.push(`Step 1: Convert to decimal = ${decimal}`);
+                if (decimal === 0) {
+                    steps.push(`Step 2: Decimal 0 = 0000 (BCD)`);
+                    return '0000';
+                }
+                let bcd = '';
+                let num = decimal;
+                let stepNum = 2;
+                while (num > 0) {
+                    let digit = num % 10;
+ let digitBinary = digit.toString(2).padStart(4, '0');
+                    steps.push(`Step ${stepNum}: Digit ${digit} = ${digitBinary}`);
+                    bcd = digitBinary + bcd;
+                    num = Math.floor(num / 10);
+                    stepNum++;
+                }
+                steps.push(`Output: ${bcd} (BCD)`);
+                return bcd;
+            }
+
+            function bcdToBinaryExplanation(bcd) {
+                if (!bcdRegex.test(bcd)) {
+                    return 'Invalid BCD: Use only digits 0-9';
+                }
+                if (bcd.length % 4 !== 0) {
+                    return 'Invalid BCD: Length must be divisible by 4';
+                }
+                steps.push(`Input: ${bcd} (BCD)`);
+                let decimal = 0;
+                let stepNum = 1;
+                for (let i = 0; i < bcd.length; i += 4) {
+                    let digit = parseInt(bcd.slice(i, i + 4), 2);
+                    if (digit > 9) {
+                        return 'Invalid BCD digit: Each 4-bit group must be 0-9';
+                    }
+                    steps.push(`Step ${stepNum}: Bits ${bcd.slice(i, i + 4)} = ${digit}`);
+                    decimal = decimal * 10 + digit;
+                    stepNum++;
+                }
+                let binary = decimal.toString(2);
+                steps.push(`Step ${stepNum}: Decimal ${decimal} to binary = ${binary}`);
+                steps.push(`Output: ${binary} (Binary)`);
+                return binary;
+            }
+
+            try {
+                if (!input) {
+                    return { error: 'No input provided: Enter a valid code' };
+                }
+                if (!type) {
+                    return { error: 'No conversion selected: Choose a conversion type' };
+                }
+
+                if (type === 'gray-to-binary') {
+                    if (!binaryRegex.test(input)) {
+                        return { error: 'Invalid Gray code: Use only 0s and 1s' };
+                    }
+                    title = 'Gray to Binary Conversion';
+                    grayToBinaryExplanation(input);
+                } else if (type === 'binary-to-gray') {
+                    if (!binaryRegex.test(input)) {
+                        return { error: 'Invalid Binary: Use only 0s and 1s' };
+                    }
+                    title = 'Binary to Gray Conversion';
+                    binaryToGrayExplanation(input);
+                } else if (type === 'binary-to-bcd') {
+                    title = 'Binary to BCD Conversion';
+                    const result = binaryToBCDExplanation(input);
+                    if (result.startsWith('Invalid') || result.startsWith('Number too large')) {
+                        return { error: result };
+                    }
+                } else if (type === 'bcd-to-binary') {
+                    title = 'BCD to Binary Conversion';
+                    const result = bcdToBinaryExplanation(input);
+                    if (result.startsWith('Invalid')) {
+                        return { error: result };
+                    }
+                } else if (type === 'gray-to-bcd') {
+                    if (!binaryRegex.test(input)) {
+                        return { error: 'Invalid Gray code: Use only 0s and 1s' };
+                    }
+                    title = 'Gray to BCD Conversion';
+                    steps.push(`Input: ${input} (Gray)`);
+                    const binary = grayToBinaryExplanation(input);
+                    steps = steps.slice(0, -1); // Remove intermediate output
+                    steps.push(`Intermediate: ${binary} (Binary)`);
+                    const bcd = binaryToBCDExplanation(binary);
+                    if (bcd.startsWith('Invalid') || bcd.startsWith('Number too large')) {
+                        return { error: bcd };
+                    }
+                } else if (type === 'bcd-to-gray') {
+                    title = 'BCD to Gray Conversion';
+                    const binary = bcdToBinaryExplanation(input);
+                    if (binary.startsWith('Invalid')) {
+                        return { error: binary };
+                    }
+                    steps = steps.slice(0, -1); // Remove intermediate output
+                    steps.push(`Intermediate: ${binary} (Binary)`);
+                    binaryToGrayExplanation(binary);
+                }
+
+                let content = '<ol>';
+                steps.forEach(step => {
+                    content += `<li>${step}</li>`;
+                });
+                content += '</ol>';
+                return { title, content };
+            } catch (error) {
+                return { error: `Error: ${error}` };
+            }
+        }
+
+        // Number System Converter
+        document.getElementById('numberSystemForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const base = document.getElementById('inputBase').value;
+            const input = document.getElementById('numberInput').value.trim();
+            const resultDiv = document.getElementById('numberResult');
+            resultDiv.innerHTML = '';
+
+            const binaryRegex = /^[01]+(\.[01]+)?$/;
+            const octalRegex = /^[0-7]+(\.[0-7]+)?$/;
+            const decimalRegex = /^\d+(\.\d+)?$/;
+            const hexRegex = /^[0-9A-Fa-f]+(\.[0-9A-Fa-f]+)?$/;
+
+            function parseFraction(frac, base) {
+                let value = 0;
+                for (let i = 0; i < frac.length; i++) {
+                    value += parseInt(frac[i], base) / Math.pow(base, i + 1);
+                }
+                return value;
+            }
+
+            function decimalToBase(decimal, base, precision = 6) {
+                let intPart = Math.floor(decimal);
+                let fracPart = decimal - intPart;
+                let intStr = intPart.toString(base).toUpperCase();
+                if (fracPart === 0) return intStr;
+
+                let fracStr = '';
+                while (fracPart > 0 && fracStr.length < precision) {
+                    fracPart *= base;
+                    let digit = Math.floor(fracPart);
+                    fracStr += digit.toString(base).toUpperCase();
+                    fracPart -= digit;
+                }
+                return fracStr ? `${intStr}.${fracStr}` : intStr;
+            }
+
+            try {
+                let decimal;
+                if (base === 'binary') {
+                    if (!binaryRegex.test(input)) throw 'Invalid Binary';
+                    let [intPart, fracPart = ''] = input.split('.');
+                    decimal = parseInt(intPart, 2) + (fracPart ? parseFraction(fracPart, 2) : 0);
+                } else if (base === 'octal') {
+                    if (!octalRegex.test(input)) throw 'Invalid Octal';
+                    let [intPart, fracPart = ''] = input.split('.');
+                    decimal = parseInt(intPart, 8) + (fracPart ? parseFraction(fracPart, 8) : 0);
+                } else if (base === 'decimal') {
+                    if (!decimalRegex.test(input)) throw 'Invalid Decimal';
+                    decimal = parseFloat(input);
+                } else if (base === 'hex') {
+                    if (!hexRegex.test(input)) throw 'Invalid Hexadecimal';
+                    let [intPart, fracPart = ''] = input.split('.');
+                    decimal = parseInt(intPart, 16) + (fracPart ? parseFraction(fracPart, 16) : 0);
+                }
+
+                const binary = decimalToBase(decimal, 2);
+                const octal = decimalToBase(decimal, 8);
+                const hex = decimalToBase(decimal, 16);
+                resultDiv.innerHTML = `
+                    Binary: ${binary}<br>
+                    Octal: ${octal}<br>
+                    Decimal: ${decimal.toFixed(6)}<br>
+                    Hexadecimal: ${hex}
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error}`;
+            }
+        });
+
+        // IEEE 754 Floating-Point Converter
+        document.getElementById('floatForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const decimal = parseFloat(document.getElementById('decimalInput').value);
+            const bits = parseInt(document.getElementById('floatType').value);
+            const bitDisplay = document.getElementById('bitDisplay');
+            const roundingError = document.getElementById('roundingError');
+
+            if (isNaN(decimal)) {
+                bitDisplay.innerHTML = '<span class="text-danger">Error: Invalid decimal number</span>';
+                roundingError.textContent = '';
+                return;
+            }
+
+            try {
+                const buffer = new ArrayBuffer(bits / 8);
+                const view = new DataView(buffer);
+                bits === 32 ? view.setFloat32(0, decimal) : view.setFloat64(0, decimal);
+
+                let binary = '';
+                for (let i = 0; i < buffer.byteLength; i++) {
+                    binary += view.getUint8(i).toString(2).padStart(8, '0');
+                }
+
+                const sign = binary[0];
+                const exponent = bits === 32 ? binary.substr(1, 8) : binary.substr(1, 11);
+                const mantissa = bits === 32 ? binary.substr(9) : binary.substr(12);
+
+                bitDisplay.innerHTML = `
+                    <span class="text-danger">${sign}</span>
+                    <span class="text-primary">${exponent}</span>
+                    <span class="text-success">${mantissa}</span>
+                `;
+
+                const reconstructed = bits === 32 ? view.getFloat32(0) : view.getFloat64(0);
+                const error = Math.abs(decimal - reconstructed);
+                roundingError.textContent = `Rounding Error: ${error.toExponential(6)} (Input: ${decimal}, Reconstructed: ${reconstructed.toFixed(6)})`;
+            } catch (error) {
+                bitDisplay.innerHTML = `<span class="text-danger">Error: ${error.message}</span>`;
+                roundingError.textContent = '';
+            }
+        });
+
+        // Physical Address Calculator
+        document.getElementById('physicalAddressForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const segment = document.getElementById('segmentInput').value.trim();
+            const offset = document.getElementById('offsetInput').value.trim();
+            const resultDiv = document.getElementById('addressOutput');
+
+            const hexRegex = /^[0-9A-Fa-f]{1,4}$/;
+
+            try {
+                if (!hexRegex.test(segment) || !hexRegex.test(offset)) {
+                    throw 'Invalid hex input (use 1-4 hex digits)';
+                }
+
+                const segmentVal = parseInt(segment, 16);
+                const offsetVal = parseInt(offset, 16);
+
+                if (segmentVal > 0xFFFF || offsetVal > 0xFFFF) {
+                    throw 'Values must be 16-bit (0x0000–0xFFFF)';
+                }
+
+                const physicalAddress = (segmentVal * 16) + offsetVal;
+                const addressHex = physicalAddress.toString(16).toUpperCase().padStart(5, '0');
+
+                resultDiv.textContent = `Physical Address: 0x${addressHex}`;
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="text-danger">Error: ${error}</span>`;
+            }
+        });
+
+        // Explanation Window Logic
+        const explanationWindow = document.getElementById('explanationWindow');
+        const explanationTitle = document.getElementById('explanationTitle');
+        const explanationContent = document.getElementById('explanationContent');
+
+        const staticExplanations = {
+            'number-binary': {
+                title: 'Binary Number System Conversion',
+                content: `
+                    <ol>
+                        <li><strong>Input</strong>: Take a binary number (e.g., 101.101).</li>
+                        <li><strong>Validate</strong>: Ensure only 0s and 1s.</li>
+                        <li><strong>To Decimal</strong>: Parse integer (101 = 5) and fraction (0.101 = 0.625) → 5.625.</li>
+                        <li><strong>Convert</strong>:
+                            <ul>
+                                <li>Octal: 5.625 → 5.5 (base 8).</li>
+                                <li>Decimal: 5.625.</li>
+                                <li>Hex: 5.625 → 5.A (base 16).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Output</strong>: Binary: 101.101, Octal: 5.5, Decimal: 5.625, Hex: 5.A.</li>
+                    </ol>
+                `
+            },
+            'number-octal': {
+                title: 'Octal Number System Conversion',
+                content: `
+                    <ol>
+                        <li><strong>Input</strong>: Take an octal number (e.g., 12.4).</li>
+                        <li><strong>Validate</strong>: Ensure digits 0-7.</li>
+                        <li><strong>To Decimal</strong>: Parse integer (12 = 10) and fraction (0.4 = 0.5) → 10.5.</li>
+                        <li><strong>Convert</strong>:
+                            <ul>
+                                <li>Binary: 10.5 → 1010.1 (base 2).</li>
+                                <li>Decimal: 10.5.</li>
+                                <li>Hex: 10.5 → A.8 (base 16).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Output</strong>: Binary: 1010.1, Octal: 12.4, Decimal: 10.5, Hex: A.8.</li>
+                    </ol>
+                `
+            },
+            'number-decimal': {
+                title: 'Decimal Number System Conversion',
+                content: `
+                    <ol>
+                        <li><strong>Input</strong>: Take a decimal number (e.g., 10.5).</li>
+                        <li><strong>Validate</strong>: Ensure valid decimal format.</li>
+                        <li><strong>Convert</strong>:
+                            <ul>
+                                <li>Binary: 10.5 → 1010.1 (base 2).</li>
+                                <li>Octal: 10.5 → 12.4 (base 8).</li>
+                                <li>Hex: 10.5 → A.8 (base 16).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Output</strong>: Binary: 1010.1, Octal: 12.4, Decimal: 10.5, Hex: A.8.</li>
+                    </ol>
+                `
+            },
+            'number-hex': {
+                title: 'Hexadecimal Number System Conversion',
+                content: `
+                    <ol>
+                        <li><strong>Input</strong>: Take a hex number (e.g., A.8).</li>
+                        <li><strong>Validate</strong>: Ensure digits 0-9, A-F.</li>
+                        <li><strong>To Decimal</strong>: Parse integer (A = 10) and fraction (0.8 = 0.5) → 10.5.</li>
+                        <li><strong>Convert</strong>:
+                            <ul>
+                                <li>Binary: 10.5 → 1010.1 (base 2).</li>
+                                <li>Octal: 10.5 → 12.4 (base 8).</li>
+                                <li>Decimal: 10.5.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Output</strong>: Binary: 1010.1, Octal: 12.4, Decimal: 10.5, Hex: A.8.</li>
+                    </ol>
+                `
+            },
+            'ieee754-32': {
+                title: 'IEEE 754 32-bit Conversion',
+                content: `
+                    <ol>
+                        <li><strong>Input</strong>: Enter a decimal (e.g., -12.375).</li>
+                        <li><strong>Sign</strong>: 0 (positive) or 1 (negative, 1 for -12.375).</li>
+                        <li><strong>Normalize</strong>: Convert to 1.m × 2^e (12.375 = 1.546875 × 2^3).</li>
+                        <li><strong>Exponent</strong>: Bias = 127, store 3 + 127 = 130 (10000010).</li>
+                        <li><strong>Mantissa</strong>: Fractional part (0.546875) to 23 bits (10001100000000000000000).</li>
+                        <li><strong>Output</strong>: 32-bit: 1 10000010 10001100000000000000000.</li>
+                        <li><strong>Rounding Error</strong>: Compare input vs. reconstructed value.</li>
+                    </ol>
+                `
+            },
+            'ieee754-64': {
+                title: 'IEEE 754 64-bit Conversion',
+                content: `
+                    <ol>
+                        <li><strong>Input</strong>: Enter a decimal (e.g., -12.375).</li>
+                        <li><strong>Sign</strong>: 0 (positive) or 1 (negative, 1 for -12.375).</li>
+                        <li><strong>Normalize</strong>: Convert to 1.m × 2^e (12.375 = 1.546875 × 2^3).</li>
+                        <li><strong>Exponent</strong>: Bias = 1023, store 3 + 1023 = 1026 (10000000010).</li>
+                        <li><strong>Mantissa</strong>: Fractional part (0.546875) to 52 bits.</li>
+                        <li><strong>Output</strong>: 64-bit: 1 10000000010 10001100000000000000000... (52 bits).</li>
+                        <li><strong>Rounding Error</strong>: Compare input vs. reconstructed value.</li>
+                    </ol>
+                `
+            },
+            'physicalAddress': {
+                title: '8086 Physical Address Calculation',
+                content: `
+                    <ol>
+                        <li><strong>Input</strong>: Enter segment and offset in hex (e.g., 1A2B, 3C4D).</li>
+                        <li><strong>Validate</strong>: Ensure hex, 0x0000–0xFFFF.</li>
+                        <li><strong>Calculate</strong>:
+                            <ul>
+                                <li>Segment to decimal (1A2B = 6699).</li>
+                                <li>Multiply by 16 (6699 × 16 = 107184).</li>
+                                <li>Offset to decimal (3C4D = 15437).</li>
+                                <li>Add: 107184 + 15437 = 122621.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Output</strong>: Convert to 5-digit hex (122621 = 1DE5D).</li>
+                    </ol>
+                `
+            }
+        };
+
+        document.querySelectorAll('.tool-logo[data-tool]').forEach(logo => {
+            logo.addEventListener('click', function() {
+                const tool = this.getAttribute('data-tool');
+                let explanation;
+
+                if (tool === 'codeConverter') {
+                    const type = document.getElementById('conversionType').value;
+                    const input = document.getElementById('conversionInput').value.trim();
+                    explanation = generateCodeConverterExplanation(type, input);
+                } else {
+                    let key;
+                    if (tool === 'numberConverter') {
+                        key = document.getElementById('inputBase').value;
+                    } else if (tool === 'ieee754') {
+                        key = `ieee754-${document.getElementById('floatType').value}`;
+                    } else if (tool === 'physicalAddress') {
+                        key = 'physicalAddress';
+                    }
+
+                    if (staticExplanations[key]) {
+                        explanation = {
+                            title: staticExplanations[key].title,
+                            content: staticExplanations[key].content
+                        };
+                    } else {
+                        explanation = {
+                            title: 'No Explanation Available',
+                            content: '<p>Please select a valid option.</p>'
+                        };
+                    }
+                }
+
+                if (explanation.error) {
+                    explanationTitle.textContent = 'Error';
+                    explanationContent.innerHTML = `<p>${explanation.error}</p>`;
+                } else {
+                    explanationTitle.textContent = explanation.title;
+                    explanationContent.innerHTML = explanation.content;
+                }
+                explanationWindow.style.display = 'block';
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!explanationWindow.contains(e.target) && !e.target.classList.contains('tool-logo')) {
+                explanationWindow.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

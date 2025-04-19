@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COA Knowledge Hub - Video Lectures</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --light-bg: #ecf0f1;
+            --dark-text: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+        }
+        
+        .navbar {
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), --secondary-color);
+            color: #3498db;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+        }
+        
+        .module-btn {
+            background-color: #fff;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.5rem 1rem;
+            margin: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .module-btn:hover, .module-btn.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .video-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+            margin-bottom: 1.5rem;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .video-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .video-card-body {
+            padding: 1rem;
+        }
+        
+        .video-card-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-text);
+        }
+        
+        .video-card-text {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .video-section {
+            display: none;
+        }
+        
+        .video-section.active {
+            display: block;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem 0;
+            }
+            .module-btn {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-laptop-code me-2"></i>COA Knowledge Hub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="modules.html"><i class="fas fa-layer-group me-1"></i> Modules</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="materials.html"><i class="fas fa-book me-1"></i> Study Materials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="videos.html"><i class="fas fa-video me-1"></i> Video Lectures</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="blogs.html"><i class="fas fa-blog me-1"></i> Blogs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html"><i class="fas fa-info-circle me-1"></i> About Us</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <div class="input-group">
+                        <input class="form-control" type="search" placeholder="Search topics..." aria-label="Search">
+                        <button class="btn btn-outline-light" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-5 fw-bold mb-3">Video Lectures</h1>
+            <p class="lead mb-4">Explore our comprehensive COA video lectures from YouTube, organized by module</p>
+        </div>
+    </section>
+
+    <!-- Video Lectures Section -->
+    <div class="container">
+        <section class="mb-5">
+            <h2 class="text-center mb-4">Module-Wise Video Lectures</h2>
+            <!-- Module Selection -->
+            <div class="text-center mb-4">
+                <button class="module-btn active" data-module="module1">Module 1: Computer Evolution</button>
+                <button class="module-btn" data-module="module2">Module 2: ALU</button>
+                <button class="module-btn" data-module="module3">Module 3: I/O Organization</button>
+                <button class="module-btn" data-module="module4">Module 4: CPU</button>
+                <button class="module-btn" data-module="module5">Module 5: Memory</button>
+                <button class="module-btn" data-module="module6">Module 6: Parallel</button>
+            </div>
+            <!-- Video Display -->
+            <div id="videoContainer">
+                <!-- Module 1 Videos -->
+                <div class="video-section active" id="module1">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/Ol8D69VKX2k?si=w4d0hPkcilR-K5Dc" target="_blank">
+                                    <img src="https://img.youtube.com/vi/Ol8D69VKX2k/hqdefault.jpg" alt="Introduction to COA">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Introduction to COA</h5>
+                                    <p class="video-card-text">Overview of computer organization and architecture concepts.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/GRInNLx3Tug?si=XBSK3EomPGyE-_6j" target="_blank">
+                                    <img src="https://img.youtube.com/vi/GRInNLx3Tug/hqdefault.jpg" alt="Basic Structure of Computer">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Basic Structure of Computer</h5>
+                                    <p class="video-card-text">Understand the core components of a computer system.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/Ev1TQ6qEfzU?si=MS4AoWpbTKlXxglm" target="_blank">
+                                    <img src="https://img.youtube.com/vi/Ev1TQ6qEfzU/hqdefault.jpg" alt="Functional Units of Computer">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Functional Units of Computer</h5>
+                                    <p class="video-card-text">Explore CPU, memory, and I/O units.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/tw_bsmVYIyM?si=XOfJyjz_WJ-MQlGG" target="_blank">
+                                    <img src="https://img.youtube.com/vi/tw_bsmVYIyM/hqdefault.jpg" alt="Evolution of Computers">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Evolution of Computers</h5>
+                                    <p class="video-card-text">Trace the history of computing devices.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/NqgpZ_v4Ne8?si=Esi29rR0umaIPLy1" target="_blank">
+                                    <img src="https://img.youtube.com/vi/NqgpZ_v4Ne8/hqdefault.jpg" alt="Generations of Computer">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Generations of Computer</h5>
+                                    <p class="video-card-text">Learn about computer generations from vacuum tubes to AI.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/6-7tns1blLU?si=Ogpenb8Y7Wx9MQwZ" target="_blank">
+                                    <img src="https://img.youtube.com/vi/6-7tns1blLU/hqdefault.jpg" alt="Classification of Computers">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Classification of Computers</h5>
+                                    <p class="video-card-text">Understand supercomputers, mainframes, and more.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/ac7T3ocg9gk?si=s2loc_MZjCmxpxwq" target="_blank">
+                                    <img src="https://img.youtube.com/vi/ac7T3ocg9gk/hqdefault.jpg" alt="Applications of Computer">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Applications of Computer</h5>
+                                    <p class="video-card-text">Discover uses in education, business, and science.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtube.com/playlist?list=PLxCzCOWd7aiFOet6KEEqDff1aXEGLdUzn&si=5LxQ8G0UTzNNbVXi" target="_blank">
+                                    <img src="https://img.youtube.com/vi/2joeDD5-v3s/hqdefault.jpg" alt="Number Systems">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Number Systems</h5>
+                                    <p class="video-card-text">Introduction to binary, decimal, and hexadecimal systems.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/4cjs2GrOf6Y?si=2ogQrUMZL0eXW7jo" target="_blank">
+                                    <img src="https://img.youtube.com/vi/4cjs2GrOf6Y/hqdefault.jpg" alt="Binary Arithmetic">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Binary Arithmetic</h5>
+                                    <p class="video-card-text">Perform addition and subtraction in binary.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/S_fPMrrIA30?si=FDlE10pdjCOBgzSK" target="_blank">
+                                    <img src="https://img.youtube.com/vi/S_fPMrrIA30/hqdefault.jpg" alt="1's and 2's Complement">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">1's and 2's Complement</h5>
+                                    <p class="video-card-text">Understand complement arithmetic for binary numbers.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/0rLiYpy2CqQ?si=ZTYMi0zbYlURMhQq" target="_blank">
+                                    <img src="https://img.youtube.com/vi/0rLiYpy2CqQ/hqdefault.jpg" alt="BCD Code">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">BCD Code</h5>
+                                    <p class="video-card-text">Learn Binary Coded Decimal representation.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/Pai6toNcI1I?si=-66rm8ecqDKlTyNL" target="_blank">
+                                    <img src="https://img.youtube.com/vi/Pai6toNcI1I/hqdefault.jpg" alt="Gray Code">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Gray Code</h5>
+                                    <p class="video-card-text">Convert between binary and Gray code.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/LHw8TVk9iOY?si=nsRnIkc3w62XL4VE" target="_blank">
+                                    <img src="https://img.youtube.com/vi/LHw8TVk9iOY/hqdefault.jpg" alt="Excess-3 Code">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Excess-3 Code</h5>
+                                    <p class="video-card-text">Understand Excess-3 code for decimal digits.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Module 2 Videos -->
+                <div class="video-section" id="module2">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/QFXaddi-Ag8?si=tWJ_WLhMRa5iAouU" target="_blank">
+                                    <img src="https://img.youtube.com/vi/QFXaddi-Ag8/hqdefault.jpg" alt="Booths Algorithm">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Booths Algorithm</h5>
+                                    <p class="video-card-text">Learn Booth’s multiplication for binary numbers.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/kGYA3rvnWdU?si=FWJcSQc1uY7vTnWA"_blank">
+                                    <img src="https://img.youtube.com/vi/kGYA3rvnWdU/hqdefault.jpg" alt="Restoring Division">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Restoring Division</h5>
+                                    <p class="video-card-text">Understand restoring division algorithm.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/ge09GjFUmKg?si=3qtIKRQQWN90V0Ds" target="_blank">
+                                    <img src="https://img.youtube.com/vi/ge09GjFUmKg/hqdefault.jpg" alt="Non Restoring Division">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Non Restoring Division</h5>
+                                    <p class="video-card-text">Explore non-restoring division for binary numbers.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/yvdtwKF87Ts?si=Een2zOiecSVHN0eE" target="_blank">
+                                    <img src="https://img.youtube.com/vi/yvdtwKF87Ts/hqdefault.jpg" alt="Floating Point Representation">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Floating Point Representation</h5>
+                                    <p class="video-card-text">Learn floating-point number formats.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/8afbTaA-gOQ?si=OBKjEugIY6mzttsi" target="_blank">
+                                    <img src="https://img.youtube.com/vi/8afbTaA-gOQ/hqdefault.jpg" alt="IEEE 754 Floating Point">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">IEEE 754 Floating Point</h5>
+                                    <p class="video-card-text">Understand IEEE 754 standard for floating-point.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/j61s-sB9uUk?si=tbIrB8-9-ym5rl0h" target="_blank">
+                                    <img src="https://img.youtube.com/vi/j61s-sB9uUk/hqdefault.jpg" alt="Arithmetic Pipeline">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Arithmetic Pipeline</h5>
+                                    <p class="video-card-text">Explore pipelining for arithmetic operations.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/SzV4l0_1MCQ?si=jpvqxBbHRe1ON5nN" target="_blank">
+                                    <img src="https://img.youtube.com/vi/SzV4l0_1MCQ/hqdefault.jpg" alt="Combinational and Sequential Circuits">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Combinational and Sequential Circuits</h5>
+                                    <p class="video-card-text">Understand circuit types in ALU.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/QWMpq6NLwF4?si=kLEg0p-0_F1FMpPM" target="_blank">
+                                    <img src="https://img.youtube.com/vi/QWMpq6NLwF4/hqdefault.jpg" alt="Flip Flops">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Flip Flops</h5>
+                                    <p class="video-card-text">Learn flip-flops for sequential logic.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/iaIu5SYmWVM?si=jGKpX-I6nTeDzQld" target="_blank">
+                                    <img src="https://img.youtube.com/vi/iaIu5SYmWVM/hqdefault.jpg" alt="Counters">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Counters</h5>
+                                    <p class="video-card-text">Explore counters in digital circuits.</p>
+                                </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                </div>
+                <!-- Module 3 Videos -->
+                <div class="video-section" id="module3">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/9syr6byniyk?si=3Ixt2bYuacoBf_D2" target="_blank">
+                                    <img src="https://img.youtube.com/vi/9syr6byniyk/hqdefault.jpg" alt="Input Output Organization">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Input Output Organization</h5>
+                                    <p class="video-card-text">Overview of I/O systems in computers.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/E82x-cug9YE?si=C48mjrAwGqRYsrwT" target="_blank">
+                                    <img src="https://img.youtube.com/vi/E82x-cug9YE/hqdefault.jpg" alt="Modes of Data Transfer">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Modes of Data Transfer</h5>
+                                    <p class="video-card-text">Learn programmed I/O, interrupts, and DMA.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/-VdpvjezNSk?si=Jiwu24SbNQFiV2Qs" target="_blank">
+                                    <img src="https://img.youtube.com/vi/-VdpvjezNSk/hqdefault.jpg" alt="Programmed I/O">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Programmed I/O</h5>
+                                    <p class="video-card-text">Understand CPU-controlled I/O transfers.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/vW2V7N23fNk?si=cHhqiHxCN7Zn41Uu" target="_blank">
+                                    <img src="https://img.youtube.com/vi/vW2V7N23fNk/hqdefault.jpg" alt="Interrupt Initiated I/O">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Interrupt Initiated I/O</h5>
+                                    <p class="video-card-text">Explore interrupt-driven I/O.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/kq30OAb6Ni0?si=Y6UoM8PmbULYbBbr" target="_blank">
+                                    <img src="https://img.youtube.com/vi/kq30OAb6Ni0/hqdefault.jpg" alt="Direct Memory Access">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Direct Memory Access</h5>
+                                    <p class="video-card-text">Learn DMA for efficient data transfer.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/xBYhHC8_A6o?si=UBoyQFh-0F8Xgq_x" target="_blank">
+                                    <img src="https://img.youtube.com/vi/xBYhHC8_A6o/hqdefault.jpg" alt="Computer Bus">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Computer Bus</h5>
+                                    <p class="video-card-text">Understand system buses for data transfer.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/Yp_3OrDhUkQ?si=UcKi7hHNLRzU7X52" target="_blank">
+                                    <img src="https://img.youtube.com/vi/Yp_3OrDhUkQ/hqdefault.jpg" alt="Bus Arbitration">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Bus Arbitration</h5>
+                                    <p class="video-card-text">Learn bus arbitration techniques.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/hSlc0rUG7hE?si=4zUJ3z7Do0w-Hirp" target="_blank">
+                                    <img src="https://img.youtube.com/vi/hSlc0rUG7hE/hqdefault.jpg" alt="Synchronous and Asynchronous Data Transfer">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Synchronous and Asynchronous Data Transfer</h5>
+                                    <p class="video-card-text">Compare data transfer methods.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/PM728r4oGcE?si=shA_bx-9Zzn2mNIE" target="_blank">
+                                    <img src="https://img.youtube.com/vi/PM728r4oGcE/hqdefault.jpg" alt="I/O Interface">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">I/O Interface</h5>
+                                    <p class="video-card-text">Explore interfaces for I/O devices.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/gPBtb8gyXgs?si=S6o2nakYLMwLq2LQ" target="_blank">
+                                    <img src="https://img.youtube.com/vi/gPBtb8gyXgs/hqdefault.jpg" alt="Peripheral Devices">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Peripheral Devices</h5>
+                                    <p class="video-card-text">Understand devices like printers and scanners.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Module 4 Videos -->
+                <div class="video-section" id="module4">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/FZGugFqdr60?si=r8F0246w33kmpYql" target="_blank">
+                                    <img src="https://img.youtube.com/vi/FZGugFqdr60/hqdefault.jpg" alt="Central Processing Unit">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Central Processing Unit</h5>
+                                    <p class="video-card-text">Overview of CPU architecture.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/GFwxZJrPxnw?si=8Xxll6YHI7DEBqOR" target="_blank">
+                                    <img src="https://img.youtube.com/vi/GFwxZJrPxnw/hqdefault.jpg" alt="Register Organization">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Register Organization</h5>
+                                    <p class="video-card-text">Learn CPU register types and roles.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/Za7ozdjE8VI?si=eNYPAP3kz6Nndp3d" target="_blank">
+                                    <img src="https://img.youtube.com/vi/Za7ozdjE8VI/hqdefault.jpg" alt="General Register Organization">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">General Register Organization</h5>
+                                    <p class="video-card-text">Explore general-purpose registers.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/u-sp4gBAJKI?si=gIRs12CAIKsyNW8A" target="_blank">
+                                    <img src="https://img.youtube.com/vi/u-sp4gBAJKI/hqdefault.jpg" alt="Stack Organization">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Stack Organization</h5>
+                                    <p class="video-card-text">Understand stack-based CPU design.</p>
+                                </div>
+                            </div>
+                        </div>
+                                                <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/ol_g3Lt66xA?si=PqngUdxquy7giO5F" target="_blank">
+                                    <img src="https://img.youtube.com/vi/ol_g3Lt66xA/hqdefault.jpg" alt="Addressing Modes">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Addressing Modes</h5>
+                                    <p class="video-card-text">Explore ways to access memory operands.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/rS97IGFPjRM?si=CVyhyzMKqr9YXwoP" target="_blank">
+                                    <img src="https://img.youtube.com/vi/rS97IGFPjRM/hqdefault.jpg" alt="Instruction Set Architecture">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Instruction Set Architecture</h5>
+                                    <p class="video-card-text">Understand ISA design principles.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/ZW1gb3h-f9k?si=yh6YBotMZO9JtXOK" target="_blank">
+                                    <img src="https://img.youtube.com/vi/ZW1gb3h-f9k/hqdefault.jpg" alt="RISC vs CISC">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">RISC vs CISC</h5>
+                                    <p class="video-card-text">Compare reduced and complex instruction sets.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/zF23S5PcUT8?si=dqx_HnfuNVwFfOkH" target="_blank">
+                                    <img src="https://img.youtube.com/vi/zF23S5PcUT8/hqdefault.jpg" alt="Pipelining in CPU">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Pipelining in CPU</h5>
+                                    <p class="video-card-text">Learn instruction pipelining in CPU.</p>
+                                </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                </div>
+                <!-- Module 5 Videos -->
+                <div class="video-section" id="module5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/YVObWiciVgw?si=GOq-IU5Bpq2TH2eO" target="_blank">
+                                    <img src="https://img.youtube.com/vi/YVObWiciVgw/hqdefault.jpg" alt="Memory Organization">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Memory Organization</h5>
+                                    <p class="video-card-text">Overview of computer memory systems.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/zwovvWfkuSg?si=1zfq_FKr_adxlXYI" target="_blank">
+                                    <img src="https://img.youtube.com/vi/zwovvWfkuSg/hqdefault.jpg" alt="Memory Hierarchy">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Memory Hierarchy</h5>
+                                    <p class="video-card-text">Learn levels of memory from registers to disks.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/Ez_kyBS-y5w?si=GE3WblodTY2mvy8s" target="_blank">
+                                    <img src="https://img.youtube.com/vi/Ez_kyBS-y5w/hqdefault.jpg" alt="Cache Memory">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Cache Memory</h5>
+                                    <p class="video-card-text">Understand cache for fast data access.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/m1dA7D6c3C0?si=Gtjn4PD-Bf5pfa5W" target="_blank">
+                                    <img src="https://img.youtube.com/vi/m1dA7D6c3C0/hqdefault.jpg" alt="Cache Mapping Techniques">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Cache Mapping Techniques</h5>
+                                    <p class="video-card-text">Learn direct, associative, and set-associative mapping.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/o2_iCzS9-ZQ?si=RsiinaCnlaCbi446" target="_blank">
+                                    <img src="https://img.youtube.com/vi/o2_iCzS9-ZQ/hqdefault.jpg" alt="Virtual Memory">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Virtual Memory</h5>
+                                    <p class="video-card-text">Explore virtual memory concepts.</p>
+                                </div>
+                            </div>
+                        </div>
+                                               
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/mME-q1B2AXc?si=JenNnENdvl3D7zMF" target="_blank">
+                                    <img src="https://img.youtube.com/vi/mME-q1B2AXc/hqdefault.jpg" alt="Main Memory">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Main Memory</h5>
+                                    <p class="video-card-text">Explore RAM and its role in computing.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/I1Gz2jlBg-s?si=oVFTwvdbl9L-HmaX" target="_blank">
+                                    <img src="https://img.youtube.com/vi/I1Gz2jlBg-s/hqdefault.jpg" alt="Secondary Memory">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Secondary Memory</h5>
+                                    <p class="video-card-text">Understand hard drives and SSDs.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/CBa7JojXvgk?si=36qWCrQU4wDigwFd" target="_blank">
+                                    <img src="https://img.youtube.com/vi/CBa7JojXvgk/hqdefault.jpg" alt="RAM and ROM">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">RAM and ROM</h5>
+                                    <p class="video-card-text">Learn volatile and non-volatile memory types.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/Dla3YG59bKo?si=b5jeqWdlxlP_0xzq" target="_blank">
+                                    <img src="https://img.youtube.com/vi/Dla3YG59bKo/hqdefault.jpg" alt="Associative Memory">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Associative Memory</h5>
+                                    <p class="video-card-text">Explore content-addressable memory.</p>
+                                </div>
+                            </div>
+                        </div>
+                                            </div>
+                </div>
+                <!-- Module 6 Videos -->
+                <div class="video-section" id="module6">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/0l_KkiaQECk?si=4Q5PEwu_nWkra29q" target="_blank">
+                                    <img src="https://img.youtube.com/vi/0l_KkiaQECk/hqdefault.jpg" alt="Parallel Processing">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Parallel Processing</h5>
+                                    <p class="video-card-text">Introduction to parallel computing.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/BHD7qhZRoXQ?si=-YHR_2PnrHNLXRHS" target="_blank">
+                                    <img src="https://img.youtube.com/vi/BHD7qhZRoXQ/hqdefault.jpg" alt="Flynn’s Taxonomy">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Flynn’s Taxonomy</h5>
+                                    <p class="video-card-text">Learn SISD, SIMD, MISD, MIMD classifications.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/So9SR3qpWsM?si=EEZzf4rROa9I9fQU" target="_blank">
+                                    <img src="https://img.youtube.com/vi/So9SR3qpWsM/hqdefault.jpg" alt="Multiprocessor System">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Multiprocessor System</h5>
+                                    <p class="video-card-text">Explore systems with multiple CPUs.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/5x99wpRtiNE?si=azHRf_0U6A84EeZs" target="_blank">
+                                    <img src="https://img.youtube.com/vi/5x99wpRtiNE/hqdefault.jpg" alt="Array Processor">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Array Processor</h5>
+                                    <p class="video-card-text">Learn processors for array operations.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/X6bPGjDJ5is?si=3UQK_WXESWCEhIqZ" target="_blank">
+                                    <img src="https://img.youtube.com/vi/X6bPGjDJ5is/hqdefault.jpg" alt="Vector Processor">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">Vector Processor</h5>
+                                    <p class="video-card-text">Understand vector-based processing.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="video-card">
+                                <a href="https://youtu.be/XIWTMvtsLmM?si=D3K4MCcgDqVbIHpP" target="_blank">
+                                    <img src="https://img.youtube.com/vi/XIWTMvtsLmM/hqdefault.jpg" alt="SIMD and MIMD">
+                                </a>
+                                <div class="video-card-body">
+                                    <h5 class="video-card-title">SIMD and MIMD</h5>
+                                    <p class="video-card-text">Compare single and multiple instruction streams.</p>
+                                </div>
+                            </div>
+                        </div>
+                                                                   </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>COA Knowledge Hub</h5>
+                    <p>Your comprehensive resource for Computer Organization and Architecture</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="modules.html" class="text-white">Modules</a></li>
+                        <li><a href="materials.html" class="text-white">Study Materials</a></li>
+                        <li><a href="videos.html" class="text-white">Video Lectures</a></li>
+                        <li><a href="blogs.html" class="text-white">Blogs</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Connect With Us</h5>
+                    <div class="social-icons">
+                        <a href="https://www.linkedin.com/in/sathyaprakashdorasanipalle" class="text-white me-2" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/prakash323" class="text-white me-2" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.facebook.com/dorasanipalli.elisha.1/" class="text-white me-2" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/d.sathya_prakash_06" class="text-white" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <p class="mb-0">© 2023 COA Knowledge Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and Custom Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('.module-btn');
+            const sections = document.querySelectorAll('.video-section');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    button.classList.add('active');
+                    const moduleId = button.getAttribute('data-module');
+                    document.getElementById(moduleId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

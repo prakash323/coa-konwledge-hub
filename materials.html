@@ -1,0 +1,422 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row =>
+                    row.some(cell => cell !== '' && cell !== null && cell !== undefined)
+                );
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COA Knowledge Hub - Study Materials</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --light-bg: #ecf0f1;
+            --dark-text: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+        }
+        
+        .navbar {
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--accent-color), #2980b9);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+        }
+        
+        .hero-section h1,
+        .hero-section p.lead {
+            color: white;
+        }
+        
+        .accordion-item {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+        
+        .accordion-button {
+            background-color: #fff;
+            color: var(--dark-text);
+            font-weight: 500;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+        
+        .resource-icon {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-right: 0.5rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .alert-info {
+            background-color: #e7f3fe;
+            border-color: #b6d4fe;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-laptop-code me-2"></i>COA Knowledge Hub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="modules.html"><i class="fas fa-layer-group me-1"></i> Modules</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="materials.html"><i class="fas fa-book me-1"></i> Study Materials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="videos.html"><i class="fas fa-video me-1"></i> Video Lectures</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="blogs.html"><i class="fas fa-blog me-1"></i> Blogs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html"><i class="fas fa-info-circle me-1"></i> About Us</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <div class="input-group">
+                        <input class="form-control" type="search" placeholder="Search topics..." aria-label="Search">
+                        <button class="btn btn-outline-light" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-5 fw-bold mb-3">Study Materials</h1>
+            <p class="lead mb-4">Download module-wise resources to master Computer Organization and Architecture</p>
+        </div>
+    </section>
+
+    <!-- Study Materials Section -->
+    <div class="container">
+        <section class="mb-5">
+            <h2 class="text-center mb-4">Module-Wise Resources</h2>
+            <div class="alert alert-info mb-4" role="alert">
+                <i class="fas fa-info-circle me-2"></i>Note: Each zip file contains all study materials (notes, cheat sheets, etc.) for the module.
+            </div>
+            <div class="accordion" id="materialsAccordion">
+                <!-- Module 1 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="module1Heading">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#module1Collapse" aria-expanded="true" aria-controls="module1Collapse">
+                            Module 1: Computer Evolution & Arithmetic (12 Hours)
+                        </button>
+                    </h2>
+                    <div id="module1Collapse" class="accordion-collapse collapse show" aria-labelledby="module1Heading" data-bs-parent="#materialsAccordion">
+                        <div class="accordion-body">
+                            <p>
+                                Covers the history of computing, computer architecture vs. organization, functional units, RISC vs. CISC, performance metrics (MIPS), registers, bus organization, memory addressing, and number systems (fixed-point, floating-point, signed numbers).
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-file-archive resource-icon"></i>
+                                    <a href="materials/module1-materials.zip" target="_blank">Download All Materials (Zip)</a>
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-book resource-icon"></i>
+                                    Recommended: "Computer Organization and Architecture" by William Stallings
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Module 2 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="module2Heading">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#module2Collapse" aria-expanded="false" aria-controls="module2Collapse">
+                            Module 2: ALU (10 Hours)
+                        </button>
+                    </h2>
+                    <div id="module2Collapse" class="accordion-collapse collapse" aria-labelledby="module2Heading" data-bs-parent="#materialsAccordion">
+                        <div class="accordion-body">
+                            <p>
+                                Explores the Arithmetic Logic Unit, including integer arithmetic, signed/unsigned addition/subtraction, multiplication (2’s complement, Booth’s Algorithm, array multiplier), division (restoring, non-restoring), and floating-point operations.
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-file-archive resource-icon"></i>
+                                    <a href="materials/module2-materials.zip" target="_blank">Download All Materials (Zip)</a>
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-book resource-icon"></i>
+                                    Recommended: "Computer Architecture: A Quantitative Approach" by Hennessy & Patterson
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Module 3 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="module3Heading">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#module3Collapse" aria-expanded="false" aria-controls="module3Collapse">
+                            Module 3: I/O Organization (8 Hours)
+                        </button>
+                    </h2>
+                    <div id="module3Collapse" class="accordion-collapse collapse" aria-labelledby="module3Heading" data-bs-parent="#materialsAccordion">
+                        <div class="accordion-body">
+                            <p>
+                                Discusses microprocessors, instruction formats, addressing modes, assembly language, stacks, subroutines, interrupts, and I/O interfaces (RS-232C, IEEE-488).
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-file-archive resource-icon"></i>
+                                    <a href="materials/module3-materials.zip" target="_blank">Download All Materials (Zip)</a>
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-book resource-icon"></i>
+                                    Recommended: "Computer Organization" by Carl Hamacher
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Module 4 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="module4Heading">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#module4Collapse" aria-expanded="false" aria-controls="module4Collapse">
+                            Module 4: The Central Processing Unit (10 Hours)
+                        </button>
+                    </h2>
+                    <div id="module4Collapse" class="accordion-collapse collapse" aria-labelledby="module4Heading" data-bs-parent="#materialsAccordion">
+                        <div class="accordion-body">
+                            <p>
+                                Covers CPU fundamentals, instruction sequencing, execution cycle, hardwired control, and microprogrammed control.
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-file-archive resource-icon"></i>
+                                    <a href="materials/module4-materials.zip" target="_blank">Download All Materials (Zip)</a>
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-book resource-icon"></i>
+                                    Recommended: "Computer Systems: A Programmer’s Perspective" by Bryant & O’Hallaron
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Module 5 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="module5Heading">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#module5Collapse" aria-expanded="false" aria-controls="module5Collapse">
+                            Module 5: Memory Organization (10 Hours)
+                        </button>
+                    </h2>
+                    <div id="module5Collapse" class="accordion-collapse collapse" aria-labelledby="module5Heading" data-bs-parent="#materialsAccordion">
+                        <div class="accordion-body">
+                            <p>
+                                Examines memory hierarchy, main memory, secondary storage, cache mapping, and cache coherence.
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-file-archive resource-icon"></i>
+                                    <a href="materials/module5-materials.zip" target="_blank">Download All Materials (Zip)</a>
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-book resource-icon"></i>
+                                    Recommended: "Memory Systems: Cache, DRAM, Disk" by Bruce Jacob
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Module 6 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="module6Heading">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#module6Collapse" aria-expanded="false" aria-controls="module6Collapse">
+                            Module 6: Parallel Organization (10 Hours)
+                        </button>
+                    </h2>
+                    <div id="module6Collapse" class="accordion-collapse collapse" aria-labelledby="module6Heading" data-bs-parent="#materialsAccordion">
+                        <div class="accordion-body">
+                            <p>
+                                Introduces parallel processing, including pipelining, multicore systems, and parallel architectures.
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-file-archive resource-icon"></i>
+                                    <a href="materials/module6-materials.zip" target="_blank">Download All Materials (Zip)</a>
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-book resource-icon"></i>
+                                    Recommended: "Parallel Computer Architecture" by Culler & Singh
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Previous Year Questions Section -->
+        <section class="mb-5">
+            <h2 class="text-center mb-4">Previous Year Questions</h2>
+            <div class="alert alert-info mb-4" role="alert">
+                <i class="fas fa-info-circle me-2"></i>Note: Each zip file contains previous year questions for CAT1, CAT2, or FAT.
+            </div>
+            <div class="accordion" id="pyqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="pyqHeading">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pyqCollapse" aria-expanded="true" aria-controls="pyqCollapse">
+                            Download Previous Year Questions
+                        </button>
+                    </h2>
+                    <div id="pyqCollapse" class="accordion-collapse collapse show" aria-labelledby="pyqHeading" data-bs-parent="#pyqAccordion">
+                        <div class="accordion-body">
+                            <p>
+                                Access question papers for Category 1 (CAT1), Category 2 (CAT2), and Final Assessment Test (FAT).
+                            </p>
+                            <ul class="list-unstyled d-flex flex-wrap gap-2">
+                                <li>
+                                    <i class="fas fa-file-archive resource-icon"></i>
+                                    <a href="materials/cat1-pyq.zip" class="btn btn-sm btn-primary" download>CAT1</a>
+                                </li>
+                                <li>
+                                    <i class="fas fa-file-archive resource-icon"></i>
+                                    <a href="materials/cat2-pyq.zip" class="btn btn-sm btn-primary" download>CAT2</a>
+                                </li>
+                                <li>
+                                    <i class="fas fa-file-archive resource-icon"></i>
+                                    <a href="materials/fat-pyq.zip" class="btn btn-sm btn-primary" download>FAT</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>COA Knowledge Hub</h5>
+                    <p>Your comprehensive resource for Computer Organization and Architecture</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="modules.html" class="text-white">Modules</a></li>
+                        <li><a href="materials.html" class="text-white">Study Materials</a></li>
+                        <li><a href="videos.html" class="text-white">Video Lectures</a></li>
+                        <li><a href="blogs.html" class="text-white">Blogs</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Connect With Us</h5>
+                    <div class="social-icons">
+                        <a href="https://www.linkedin.com/in/sathyaprakashdorasanipalle" class="text-white me-2" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/prakash323" class="text-white me-2" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.facebook.com/dorasanipalli.elisha.1/" class="text-white me-2" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/d.sathya_prakash_06" class="text-white" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <p class="mb-0">© 2023 COA Knowledge Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

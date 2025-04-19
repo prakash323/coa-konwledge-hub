@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Poster Exhibition</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom styles for premium look */
+    .poster-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .poster-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+    .modal {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .modal.show {
+      display: flex;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .modal img {
+      animation: zoomIn 0.3s ease;
+    }
+    @keyframes zoomIn {
+      from { transform: scale(0.8); }
+      to { transform: scale(1); }
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white">
+  <!-- Header -->
+  <header class="bg-gray-800 py-6">
+    <h1 class="text-4xl font-bold text-center">Digital Poster Exhibition</h1>
+    <p class="text-center mt-2 text-gray-400">Showcasing Creative Works by Classmates</p>
+  </header>
+
+  <!-- Poster Gallery -->
+  <section class="container mx-auto py-12 px-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <!-- Poster Card 1 -->
+      <div class="poster-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer" onclick="openModal('images/poster1-full.jpg', 'Poster 1')">
+  <img src="images/poster1-thumb.jpg" alt="Poster 1" class="w-full h-48 object-cover">
+  <div class="p-4">
+    <h3 class="text-lg font-semibold">Poster 1</h3>
+    <p class="text-gray-400">By [Classmate Name]</p>
+  </div>
+</div>
+        <div class="p-4">
+          <h3 class="text-lg font-semibold">Poster 1</h3>
+          <p class="text-gray-400">Creative Design</p>
+        </div>
+      </div>
+      <!-- Poster Card 2 -->
+<div class="poster-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer" onclick="openModal('images/poster2-full.jpg', 'Poster 1')">
+  <img src="images/poster2-thumb.jpg" alt="Poster 1" class="w-full h-48 object-cover">
+  <div class="p-4">
+    <h3 class="text-lg font-semibold">Poster 1</h3>
+    <p class="text-gray-400">By [Classmate Name]</p>
+  </div>
+</div>
+      <!-- Poster Card 3 -->
+      <div class="poster-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer" onclick="openModal('images/poster3-full.jpg', 'Poster 1')">
+  <img src="images/poster3-thumb.jpg" alt="Poster 1" class="w-full h-48 object-cover">
+  <div class="p-4">
+    <h3 class="text-lg font-semibold">Poster 1</h3>
+    <p class="text-gray-400">By [Classmate Name]</p>
+  </div>
+</div>
+      <!-- Poster Card 4 -->
+      <div class="poster-card bg-gray-800 rounded-lg overflow-hidden cursor-pointer" onclick="openModal('images/poster4-full.jpg', 'Poster 1')">
+  <img src="images/poster4-thumb.jpg" alt="Poster 1" class="w-full h-48 object-cover">
+  <div class="p-4">
+    <h3 class="text-lg font-semibold">Poster 1</h3>
+    <p class="text-gray-400">By [Classmate Name]</p>
+  </div>
+</div>
+    </div>
+  </section>
+
+  <!-- Modal for Full-Size Poster -->
+  <div id="modal" class="modal fixed inset-0 bg-black bg-opacity-75 items-center justify-center">
+    <div class="relative bg-gray-800 rounded-lg max-w-3xl w-full mx-4">
+      <button onclick="closeModal()" class="absolute top-4 right-4 text-white text-2xl">&times;</button>
+      <img id="modal-image" src="" alt="Selected Poster" class="w-full h-auto rounded-t-lg">
+      <div class="p-6">
+        <h2 id="modal-title" class="text-2xl font-bold"></h2>
+        <p class="text-gray-400 mt-2">Click outside or close to return to the gallery.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(imageSrc, title) {
+      const modal = document.getElementById('modal');
+      const modalImage = document.getElementById('modal-image');
+      const modalTitle = document.getElementById('modal-title');
+      modalImage.src = imageSrc;
+      modalTitle.textContent = title;
+      modal.classList.add('show');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('modal');
+      modal.classList.remove('show');
+    }
+
+    // Close modal when clicking outside the content
+    document.getElementById('modal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('modal')) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
